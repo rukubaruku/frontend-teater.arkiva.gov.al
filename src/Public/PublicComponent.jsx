@@ -1,6 +1,97 @@
 import "./publicComponent.css";
 import Logo from "../Assets/Images/logo.jpg";
+import { useEffect, useState } from "react";
+import { Bounce, toast } from "react-toastify";
+import axios from "axios";
+
 const PublicComponent = () => {
+  const [loading, setLoading] = useState(false);
+  const [movies, setMovies] = useState([]);
+
+  // Form states
+  const [movieId, setMovieId] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [nrPeople, setNrPeople] = useState("1");
+  const [errors, setErrors] = useState({});
+
+  const fetchMovies = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/movies/pending"
+      );
+      if (response.status === 200) {
+        setMovies(response.data);
+      }
+    } catch (error) {
+      toast.error(
+        error.response?.data?.message || "Gabim gjatë marrjes së filmave!",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          theme: "light",
+          transition: Bounce,
+        }
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+
+  // Validate form
+  const isValid = () => {
+    const newErrors = {};
+    if (!movieId) newErrors.movieId = "Zgjidhni një event!";
+    if (!fullName.trim())
+      newErrors.fullName = "Emri i plotë është i detyrueshëm!";
+    if (!email.trim() || !/\S+@\S+\.\S+/.test(email))
+      newErrors.email = "Vendosni një email të vlefshëm!";
+    if (!nrPeople || parseInt(nrPeople) <= 0)
+      newErrors.nrPeople = "Zgjidhni numrin e biletave!";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const addReservation = async () => {
+    if (!isValid()) return;
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "http://localhost:5000/api/reservations/new",
+        {
+          fullName,
+          email,
+          nrPeople,
+          movie: movieId,
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Rezervimi u shtua me sukses!", { transition: Bounce });
+        // Reset form
+        setMovieId("");
+        setFullName("");
+        setEmail("");
+        setNrPeople("1");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error(
+        error.response?.data?.message || "Ndodhi një gabim gjatë ruajtjes!",
+        { transition: Bounce }
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="booking">
       <div className="overlay"></div>
@@ -9,52 +100,89 @@ const PublicComponent = () => {
           <div className="booking-form">
             <div className="form-title">Rezervoni vendin tuaj</div>
             <div className="form-inputs">
+              {/* Movie selection */}
               <div className="input-group">
                 <div className="input-label">
                   Zgjidhni eventin që doni të ndiqni:
                 </div>
                 <div className="input-value">
-                  <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
+                  <select
+                    value={movieId}
+                    onChange={(e) => setMovieId(e.target.value)}
+                  >
+                    <option value="">-- Zgjidh event --</option>
+                    {movies.map((movie) => (
+                      <option key={movie._id} value={movie._id}>
+                        {movie.title} - {movie.date} - {movie.time}
+                      </option>
+                    ))}
                   </select>
                 </div>
-                <div className="error-message"></div>
+                {errors.movieId && (
+                  <div className="error-message">{errors.movieId}</div>
+                )}
               </div>
+
+              {/* Full name */}
               <div className="input-group">
                 <div className="input-label">Emër Mbiemër:</div>
                 <div className="input-value">
-                  <input type="text" />
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                  />
                 </div>
-                <div className="error-message"></div>
+                {errors.fullName && (
+                  <div className="error-message">{errors.fullName}</div>
+                )}
               </div>
+
+              {/* Email */}
               <div className="input-group">
                 <div className="input-label">Email:</div>
                 <div className="input-value">
-                  <input type="text" />
+                  <input
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
                 </div>
-                <div className="error-message"></div>
+                {errors.email && (
+                  <div className="error-message">{errors.email}</div>
+                )}
               </div>
+
+              {/* Tickets */}
               <div className="input-group">
                 <div className="input-label">Numri i biletave:</div>
                 <div className="input-value">
-                  <select>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
+                  <select
+                    value={nrPeople}
+                    onChange={(e) => setNrPeople(e.target.value)}
+                  >
+                    {[1, 2, 3, 4, 5].map((n) => (
+                      <option key={n} value={n}>
+                        {n}
+                      </option>
+                    ))}
                   </select>
                 </div>
-                <div className="error-message"></div>
+                {errors.nrPeople && (
+                  <div className="error-message">{errors.nrPeople}</div>
+                )}
               </div>
+
+              {/* Submit button */}
               <div className="send-btn">
-                <button>Dërgo</button>
+                <button disabled={loading} onClick={addReservation}>
+                  {loading ? "Duke dërguar..." : "Dërgo"}
+                </button>
               </div>
             </div>
           </div>
         </div>
+
         <div className="description">
           <div className="description-image">
             <img src={Logo} alt="dpa logo" />

@@ -46,9 +46,10 @@ const Filma = () => {
   }, [navigate]);
 
   const columns = [
-    { field: "title", header: "Titulli", size: 500 },
+    { field: "title", header: "Titulli", size: 400 },
     { field: "date", header: "Data", size: 100 },
     { field: "time", header: "Ora", size: 100 },
+    { field: "status", header: "Statusi", size: 100 },
   ];
 
   const handleRowClick = (movie) => {

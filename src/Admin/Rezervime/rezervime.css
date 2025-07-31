@@ -166,3 +166,55 @@
   color: #6c757d;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.css-2u4z9f-multiValue {
+  background-color: #f8f9fa;
+}
+
+.export-btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 24px;
+}
+
+.export-btn button {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.export-btn button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.export-btn .csv {
+  background: linear-gradient(to right, #11998e, #38ef7d);
+}
+
+.export-btn .csv:hover {
+  background: linear-gradient(to right, #38ef7d, #11998e);
+}
+
+.export-btn .pdf {
+  background: linear-gradient(to right, #c02425, #f0cb35);
+}
+
+.export-btn .pdf:hover {
+  background: linear-gradient(to right, #f0cb35, #c02425);
+}
+
+.export-btn button:hover {
+  background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}

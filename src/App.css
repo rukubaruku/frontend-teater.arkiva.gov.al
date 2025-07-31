@@ -1,6 +1,7 @@
 .layout {
   display: flex;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .sidebar {
@@ -79,8 +80,9 @@
   background-color: #ffffff;
   box-sizing: border-box;
   gap: 0;
+  overflow: hidden;
   overflow-y: auto;
-  overflow-x: hidden;
+  flex: 1;
 }
 
 .page-header {
@@ -93,12 +95,16 @@
   border-bottom: 1px solid #e1e5e9;
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  position: relative;
+  /* position: relative; */
   margin-left: -16px;
   margin-right: -16px;
   padding-left: 48px;
   padding-right: 48px;
   min-height: 80px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .controls {
@@ -164,6 +170,9 @@
   margin-left: -16px;
   margin-right: -16px;
   position: relative;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .page-content::before {

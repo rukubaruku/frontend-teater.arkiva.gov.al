@@ -3,6 +3,7 @@ import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./filma.css";
+import CustomSelect from "../../CustomSelect";
 
 const ShtoFilm = () => {
   const [loading, setLoading] = useState(false);
@@ -10,6 +11,7 @@ const ShtoFilm = () => {
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+  const [status, setStatus] = useState("");
   const [inputErrors, setInputErrors] = useState({});
   const navigate = useNavigate();
 
@@ -27,10 +29,18 @@ const ShtoFilm = () => {
     if (!time) {
       errors.time = "Ora nuk mund të jetë bosh!";
     }
+    if (!status) {
+      errors.status = "Statusi nuk mund të jetë bosh!";
+    }
 
     setInputErrors(errors);
     return Object.keys(errors).length === 0;
   };
+
+  const statusOptions = [
+    { value: "pending", label: "Në pritje" },
+    { value: "completed", label: "Përfunduar" },
+  ];
 
   useEffect(() => {
     const loggedUser = localStorage.getItem("loggedUser_id");
@@ -54,6 +64,7 @@ const ShtoFilm = () => {
           title,
           date,
           time,
+          status,
         }
       );
 
@@ -73,6 +84,7 @@ const ShtoFilm = () => {
         setTitle("");
         setDate("");
         setTime("");
+        setStatus("");
       }
     } catch (error) {
       console.error(error);
@@ -179,6 +191,28 @@ const ShtoFilm = () => {
                   />
                   {inputErrors.time && (
                     <div className="error-message">{inputErrors.time}</div>
+                  )}
+                </div>
+              </div>
+
+              <div className="form-field">
+                <label className="field-label">
+                  <i className="fa-solid fa-list-check"></i>
+                  Statusi
+                </label>
+                <div className="field-input">
+                  <CustomSelect
+                    options={statusOptions}
+                    value={
+                      statusOptions.find((opt) => opt.value === status) || null
+                    }
+                    onChange={(selectedOption) =>
+                      setStatus(selectedOption?.value || "")
+                    }
+                    placeholder="Zgjidh statusin"
+                  />
+                  {inputErrors.status && (
+                    <div className="error-message">{inputErrors.status}</div>
                   )}
                 </div>
               </div>

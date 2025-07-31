@@ -6,21 +6,24 @@ import axios from "axios";
 import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import "./rezervime.css";
+import CustomSelect from "../../CustomSelect";
 
 const Rezervime = () => {
   const [loading, setLoading] = useState(false);
   const [reservations, setReservations] = useState([]);
   const [filteredReservations, setFilteredReservations] = useState([]);
   const [movies, setMovies] = useState([]);
-  const [selectedMovie, setSelectedMovie] = useState("");
+  const [selectedMovieIds, setSelectedMovieIds] = useState([]);
   const navigate = useNavigate();
 
-  const fetchReservations = async () => {
+  const fetchReservations = async (movieIds = []) => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/reservations"
+      const response = await axios.post(
+        `http://localhost:5000/api/reservations/filter`,
+        { movieIds }
       );
+
       if (response.status === 200) {
         setReservations(response.data.data);
         setFilteredReservations(response.data.data);
@@ -43,8 +46,8 @@ const Rezervime = () => {
   const fetchMovies = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/movies");
-      if (Array.isArray(response.data?.data)) {
-        setMovies(response.data.data);
+      if (Array.isArray(response.data)) {
+        setMovies(response.data);
       } else {
         setMovies([]);
       }
@@ -53,53 +56,83 @@ const Rezervime = () => {
     }
   };
 
-  const handleMovieChange = (e) => {
-    const movieId = e.target.value;
-    setSelectedMovie(movieId);
-
-    if (movieId === "") {
-      setFilteredReservations(reservations);
-    } else {
-      setFilteredReservations(
-        reservations.filter((r) => {
-          // Support both string and populated object
-          if (typeof r.movie === "string") return r.movie === movieId;
-          if (typeof r.movie === "object" && r.movie !== null)
-            return r.movie._id === movieId;
-          return false;
-        })
-      );
-    }
+  const handleMovieChange = (selectedOptions) => {
+    const ids = selectedOptions?.map((option) => option.value) || [];
+    setSelectedMovieIds(ids);
+    fetchReservations(ids);
   };
 
   const exportCSV = () => {
-    const movie = movies.find((m) => m._id === selectedMovie);
-    const title = movie ? movie.title : "All Reservations";
+    let title = "All Reservations";
+    if (selectedMovieIds.length > 0) {
+      const selectedTitles = movies
+        .filter((m) => selectedMovieIds.includes(m._id))
+        .map((m) => m.title)
+        .join(", ");
+      title = selectedTitles || title;
+    }
 
-    let csvContent = `Movie title: ${title}\nFull Name,Nr. personave\n`;
+    let csvContent = "\uFEFF";
+
+    csvContent += `Titulli i filmit: ${title}\n`;
+    csvContent += `Emër mbiemër,Nr.personave\n`;
+
     filteredReservations.forEach((r) => {
       csvContent += `${r.fullName},${r.nrPeople}\n`;
     });
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, `${title.replace(/\s+/g, "_")}_reservations.csv`);
+    saveAs(blob, `${title.replace(/\s+/g, "_")}_rezervime.csv`);
   };
 
   const exportPDF = () => {
-    const movie = movies.find((m) => m._id === selectedMovie);
-    const title = movie ? movie.title : "All Reservations";
-
     const doc = new jsPDF();
-    doc.setFontSize(16);
-    doc.text(`Movie title: ${title}`, 10, 10);
-
     let y = 20;
-    filteredReservations.forEach((r) => {
-      doc.text(`${r.fullName} => ${r.nrPeople}`, 10, y);
+
+    const moviesToExport =
+      selectedMovieIds.length > 0
+        ? movies.filter((m) => selectedMovieIds.includes(m._id))
+        : movies;
+
+    moviesToExport.forEach((movie, movieIndex) => {
+      const reservationsForMovie = filteredReservations.filter(
+        (r) => r.movie === movie._id
+      );
+
+      if (reservationsForMovie.length === 0) return;
+
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(16);
+      doc.text(`Titulli i filmit: ${movie.title}`, 10, y);
       y += 10;
+
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(14);
+      reservationsForMovie.forEach((r) => {
+        doc.text(`• ${r.fullName} => ${r.nrPeople}`, 15, y);
+        y += 8;
+
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+      });
+
+      y += 10;
+
+      if (y > 270 && movieIndex < moviesToExport.length - 1) {
+        doc.addPage();
+        y = 20;
+      }
     });
 
-    doc.output("dataurlnewwindow");
+    const fileName = (
+      selectedMovieIds.length > 0
+        ? moviesToExport.map((m) => m.title).join("_")
+        : "All_Reservations"
+    ).replace(/\s+/g, "_");
+
+    doc.save(`${fileName}_rezervime.pdf`);
   };
 
   useEffect(() => {
@@ -109,7 +142,6 @@ const Rezervime = () => {
       navigate("/login");
       localStorage.clear();
     } else {
-      fetchReservations();
       fetchMovies();
     }
   }, [navigate]);
@@ -124,9 +156,14 @@ const Rezervime = () => {
   };
 
   const handleClearFilters = () => {
-    setSelectedMovie("");
-    setFilteredReservations(reservations);
+    setSelectedMovieIds([]);
+    fetchReservations([]);
   };
+
+  const movieOptions = movies.map((movie) => ({
+    value: movie._id,
+    label: movie.title,
+  }));
 
   return (
     <div className="content-page">
@@ -156,13 +193,13 @@ const Rezervime = () => {
               <i className="fa-solid fa-filter"></i>
               Filtro sipas filmit
             </div>
-            {selectedMovie && (
+            {selectedMovieIds.length > 0 && (
               <button
                 className="clear-filters-btn"
                 onClick={handleClearFilters}
               >
                 <i className="fa-solid fa-times"></i>
-                Cancella Filtri
+                Hiq filtrat
               </button>
             )}
           </div>
@@ -175,43 +212,45 @@ const Rezervime = () => {
                   Titulli
                 </label>
                 <div className="filter-input">
-                  <select
-                    value={selectedMovie}
+                  <CustomSelect
+                    options={movieOptions}
+                    value={movieOptions.filter((option) =>
+                      selectedMovieIds.includes(option.value)
+                    )}
                     onChange={handleMovieChange}
-                    className="filter-select"
-                  >
-                    <option value="">Zgjidh film</option>
-                    {Array.isArray(movies) &&
-                      movies.length > 0 &&
-                      movies.map((movie) => (
-                        <option key={movie._id} value={movie._id}>
-                          {movie.title}
-                        </option>
-                      ))}
-                  </select>
+                    placeholder="Zgjidh film"
+                    isMulti={true}
+                  />
                 </div>
               </div>
             </div>
 
             <div className="filters-summary">
               <div className="active-filters">
-                {selectedMovie && (
-                  <span className="filter-tag">
-                    <i className="fa-solid fa-film"></i>
-                    Filmi: {movies.find((m) => m._id === selectedMovie)?.title}
-                  </span>
-                )}
+                {selectedMovieIds.map((id) => {
+                  const movie = movies.find((m) => m._id === id);
+                  return (
+                    <span key={id} className="filter-tag">
+                      <i className="fa-solid fa-film"></i>
+                      Filmi: {movie?.title}
+                    </span>
+                  );
+                })}
               </div>
               <div className="results-count">
                 {filteredReservations?.length || 0} rezervime të gjetura
               </div>
             </div>
           </div>
+        </div>
 
-          <div className="export-btn">
-            <button onClick={exportCSV}>Export CSV</button>
-            <button onClick={exportPDF}>Export PDF</button>
-          </div>
+        <div className="export-btn">
+          <button onClick={exportCSV} className="csv">
+            Export CSV
+          </button>
+          <button onClick={exportPDF} className="pdf">
+            Export PDF
+          </button>
         </div>
 
         {filteredReservations && (

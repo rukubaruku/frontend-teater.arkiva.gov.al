@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import CustomSelect from "../../CustomSelect";
 
 const ShtoRezervim = () => {
   const [loading, setLoading] = useState(false);
@@ -123,18 +124,27 @@ const ShtoRezervim = () => {
                   Filmi
                 </label>
                 <div className="field-input">
-                  <select
-                    value={movieId}
-                    onChange={(e) => setMovieId(e.target.value)}
-                    className={inputErrors.movieId ? "error-input" : ""}
-                  >
-                    <option value="">Zgjidh një film</option>
-                    {movies.map((movie) => (
-                      <option key={movie._id} value={movie._id}>
-                        {movie.title} - {movie.date} @ {movie.time}
-                      </option>
-                    ))}
-                  </select>
+                  <CustomSelect
+                    options={movies.map((movie) => ({
+                      value: movie._id,
+                      label: `${movie.title} - ${movie.date} @ ${movie.time}`,
+                    }))}
+                    value={
+                      movieId
+                        ? {
+                            value: movieId,
+                            label:
+                              movies.find((m) => m._id === movieId)?.title ||
+                              "",
+                          }
+                        : null
+                    }
+                    onChange={(selectedOption) => {
+                      setMovieId(selectedOption ? selectedOption.value : "");
+                    }}
+                    placeholder="Zgjidh një film"
+                    classNamePrefix={inputErrors.movieId ? "error-input" : ""}
+                  />
                   {inputErrors.movieId && (
                     <div className="error-message">{inputErrors.movieId}</div>
                   )}
