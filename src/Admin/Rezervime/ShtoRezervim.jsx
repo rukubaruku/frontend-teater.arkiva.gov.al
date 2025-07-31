@@ -1,0 +1,202 @@
+import { useEffect, useState } from "react";
+import { Bounce, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const ShtoRezervim = () => {
+  const [loading, setLoading] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [movies, setMovies] = useState([]);
+  const [movieId, setMovieId] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [nrPeople, setNrPeople] = useState("");
+  const [inputErrors, setInputErrors] = useState({});
+  const navigate = useNavigate();
+
+  const isValid = () => {
+    const errors = {};
+
+    if (!movieId) errors.movieId = "Zgjidh një film!";
+    if (!fullName) errors.fullName = "Emri i plotë nuk mund të jetë bosh!";
+    if (!nrPeople || isNaN(nrPeople) || parseInt(nrPeople) <= 0)
+      errors.nrPeople = "Vendos një numër të vlefshëm personash!";
+
+    setInputErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const fetchMovies = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("http://localhost:5000/api/movies");
+      if (response.status === 200) {
+        setMovies(response.data);
+      }
+    } catch (error) {
+      toast.error(
+        `${
+          error.response?.data?.message || "Gabim gjatë ngarkimit të filmave!"
+        }`
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const loggedUser = localStorage.getItem("loggedUser_id");
+    if (!loggedUser) {
+      alert("Hyr për të shtuar rezervime!");
+      navigate("/login");
+      localStorage.clear();
+    } else {
+      setIsAuthorized(true);
+      fetchMovies();
+    }
+  }, [navigate]);
+
+  const addReservation = async () => {
+    if (!isValid()) return;
+
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        "http://localhost:5000/api/reservations/new",
+        {
+          fullName,
+          nrPeople,
+          movie: movieId,
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Rezervimi u shtua me sukses!", { transition: Bounce });
+        setMovieId("");
+        setFullName("");
+        setNrPeople("");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Ndodhi një gabim gjatë ruajtjes!", { transition: Bounce });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!isAuthorized) return null;
+
+  return (
+    <div className="content-page">
+      {loading && (
+        <div className="overlay">
+          <div className="spinner"></div>
+        </div>
+      )}
+
+      <div className="page-header">
+        <div className="page-title">Shto rezervim</div>
+        <div className="header-actions">
+          <button
+            onClick={() => navigate("/menaxho/rezervime")}
+            className="back-btn"
+          >
+            <i className="fa-solid fa-arrow-left"></i>
+            Kthehu tek rezervimet
+          </button>
+        </div>
+      </div>
+
+      <div className="page-content add-movie-container">
+        <div className="add-movie-card">
+          <div className="card-header">
+            <div className="card-title">
+              <i className="fa-solid fa-user-check"></i>
+              Shto rezervim
+            </div>
+          </div>
+
+          <div className="card-content">
+            <div className="form-grid">
+              <div className="form-field">
+                <label className="field-label">
+                  <i className="fa-solid fa-film"></i>
+                  Filmi
+                </label>
+                <div className="field-input">
+                  <select
+                    value={movieId}
+                    onChange={(e) => setMovieId(e.target.value)}
+                    className={inputErrors.movieId ? "error-input" : ""}
+                  >
+                    <option value="">Zgjidh një film</option>
+                    {movies.map((movie) => (
+                      <option key={movie._id} value={movie._id}>
+                        {movie.title} - {movie.date} @ {movie.time}
+                      </option>
+                    ))}
+                  </select>
+                  {inputErrors.movieId && (
+                    <div className="error-message">{inputErrors.movieId}</div>
+                  )}
+                </div>
+              </div>
+
+              <div className="form-field">
+                <label className="field-label">
+                  <i className="fa-solid fa-user"></i>
+                  Emri i plotë
+                </label>
+                <div className="field-input">
+                  <input
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Vendosni emrin"
+                    className={inputErrors.fullName ? "error-input" : ""}
+                  />
+                  {inputErrors.fullName && (
+                    <div className="error-message">{inputErrors.fullName}</div>
+                  )}
+                </div>
+              </div>
+
+              <div className="form-field">
+                <label className="field-label">
+                  <i className="fa-solid fa-users"></i>
+                  Numri i personave
+                </label>
+                <div className="field-input">
+                  <input
+                    type="number"
+                    value={nrPeople}
+                    onChange={(e) => setNrPeople(e.target.value)}
+                    placeholder="Vendosni numrin e personave"
+                    className={inputErrors.nrPeople ? "error-input" : ""}
+                  />
+                  {inputErrors.nrPeople && (
+                    <div className="error-message">{inputErrors.nrPeople}</div>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="action-buttons">
+              <button
+                className="cancel-btn"
+                onClick={() => navigate("/menaxho/rezervime")}
+              >
+                Anullo
+              </button>
+              <button className="save-btn" onClick={addReservation}>
+                <i className="fa-solid fa-plus"></i>
+                Shto rezervim
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ShtoRezervim;

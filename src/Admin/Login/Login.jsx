@@ -17,17 +17,16 @@ const Login = () => {
     const userToLogin = { email: emailL, password: passwordL };
     try {
       const response = await axios.post(
-        "https://teater-api.arkiva.gov.al/api/users/login",
+        "http://localhost:5000/api/users/login",
         userToLogin
       );
       if (response.data.type === "error") {
         setLoginError(response.data.message);
         return;
       }
-
       const user = response.data;
       if (user) {
-        navigate("/manage/dashboard");
+        navigate("/menaxho/dashboard");
         localStorage.setItem("loggedUser_id", user._id);
       } else {
         localStorage.setItem("loggedUser_id", 0);

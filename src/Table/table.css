@@ -1,0 +1,214 @@
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table-container::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+.MuiTableRow-root:hover {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.MuiTableCell-root {
+  vertical-align: middle;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+/* Custom styling for table toolbar */
+.MuiTableToolbar-root {
+  padding: 16px 24px;
+}
+
+/* Enhanced search field styling */
+.MuiTableToolbar-root .MuiInputBase-root {
+  transition: all 0.2s ease;
+  color: #2b3240;
+}
+
+.MuiTableToolbar-root .MuiInputBase-root input {
+  color: #2b3240 !important;
+}
+
+.MuiTableToolbar-root .MuiInputBase-root input::placeholder {
+  color: #6b7280 !important;
+}
+
+.MuiTableToolbar-root .MuiInputBase-root:hover {
+  border-color: #bd1e2c;
+}
+
+.MuiTableToolbar-root .MuiInputBase-root.Mui-focused {
+  border-color: #bd1e2c;
+  box-shadow: 0 0 0 3px rgba(189, 30, 44, 0.1);
+}
+
+/* Override Material-UI default focus colors */
+.MuiTableToolbar-root .MuiInputBase-root .Mui-focused {
+  border-color: #bd1e2c !important;
+}
+
+.MuiTableToolbar-root
+  .MuiInputBase-root
+  .Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #bd1e2c !important;
+}
+
+.MuiTableToolbar-root
+  .MuiInputBase-root
+  .Mui-focused
+  .MuiOutlinedInput-notchedOutline:hover {
+  border-color: #bd1e2c !important;
+}
+
+/* Global override for all table inputs */
+.MuiTableToolbar-root .MuiInputBase-root .Mui-focused,
+.MuiTableToolbar-root
+  .MuiInputBase-root
+  .Mui-focused
+  .MuiOutlinedInput-notchedOutline,
+.MuiTableToolbar-root
+  .MuiInputBase-root
+  .Mui-focused
+  .MuiOutlinedInput-notchedOutline:hover {
+  border-color: #bd1e2c !important;
+}
+
+/* Override Material-UI default focus colors for all input types */
+.MuiTableToolbar-root .MuiInputBase-root.Mui-focused,
+.MuiTableToolbar-root
+  .MuiInputBase-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline,
+.MuiTableToolbar-root
+  .MuiInputBase-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline:hover,
+.MuiTableToolbar-root .MuiInputBase-root.Mui-focused .MuiInputBase-input,
+.MuiTableToolbar-root
+  .MuiInputBase-root.Mui-focused
+  .MuiInputBase-inputAdornment,
+.MuiTableToolbar-root
+  .MuiInputBase-root.Mui-focused
+  .MuiInputBase-inputAdornment
+  svg {
+  border-color: #bd1e2c !important;
+  color: #2b3240 !important;
+}
+
+/* Override for TextField components */
+.MuiTableToolbar-root
+  .MuiTextField-root
+  .MuiInputBase-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #bd1e2c !important;
+}
+
+/* Override for any remaining blue focus colors */
+.MuiTableToolbar-root *:focus {
+  border-color: #bd1e2c !important;
+}
+
+.MuiTableToolbar-root .MuiInputBase-root:focus-within {
+  border-color: #bd1e2c !important;
+}
+
+.MuiTableToolbar-root
+  .MuiInputBase-root:focus-within
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #bd1e2c !important;
+}
+
+/* Button styling in toolbar */
+.MuiTableToolbar-root .MuiIconButton-root {
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.MuiTableToolbar-root .MuiIconButton-root:hover {
+  background-color: rgba(189, 30, 44, 0.1);
+  color: #bd1e2c;
+}
+
+/* Pagination styling */
+.MuiTablePagination-root {
+  padding: 12px 24px;
+}
+
+.MuiTablePagination-root .MuiIconButton-root {
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.MuiTablePagination-root .MuiIconButton-root:hover {
+  background-color: rgba(189, 30, 44, 0.1);
+  color: #bd1e2c;
+}
+
+.MuiTablePagination-root .MuiIconButton-root.Mui-disabled {
+  color: #d1d5db;
+}
+
+/* Filter dialog styling */
+.MuiDialog-root .MuiDialog-paper {
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.MuiDialog-root .MuiDialogTitle-root {
+  background: linear-gradient(135deg, #bd1e2c 0%, #a0182a 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+/* Density toggle and fullscreen buttons */
+.MuiTableToolbar-root .MuiButtonGroup-root .MuiIconButton-root {
+  color: #6b7280;
+  transition: all 0.2s ease;
+}
+
+.MuiTableToolbar-root .MuiButtonGroup-root .MuiIconButton-root:hover {
+  background-color: rgba(189, 30, 44, 0.1);
+  color: #bd1e2c;
+  border-color: #bd1e2c;
+}
+
+/* Alert banner styling */
+.MuiAlert-root {
+  border-radius: 8px;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .table-container {
+    border-radius: 12px;
+  }
+
+  .MuiTableToolbar-root {
+    padding: 12px 16px;
+  }
+
+  .MuiTablePagination-root {
+    padding: 8px 16px;
+  }
+}
