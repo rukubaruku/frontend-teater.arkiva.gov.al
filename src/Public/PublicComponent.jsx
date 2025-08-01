@@ -30,6 +30,11 @@ const PublicComponent = () => {
     }
   };
 
+  const formatDate = (dateStr) => {
+    const [year, month, day] = dateStr.split("-");
+    return `${day}.${month}.${year}`;
+  };
+
   useEffect(() => {
     fetchMovies();
   }, []);
@@ -130,7 +135,7 @@ const PublicComponent = () => {
                     <option value="">-- Zgjidh event --</option>
                     {movies.map((movie) => (
                       <option key={movie._id} value={movie._id}>
-                        {movie.title} - {movie.date} - {movie.time}
+                        {movie.title} - {formatDate(movie.date)} - {movie.time}
                       </option>
                     ))}
                   </select>
