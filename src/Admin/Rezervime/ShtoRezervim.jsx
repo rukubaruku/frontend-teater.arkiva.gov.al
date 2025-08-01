@@ -41,7 +41,18 @@ const ShtoRezervim = () => {
       toast.error(
         `${
           error.response?.data?.message || "Gabim gjatë ngarkimit të filmave!"
-        }`
+        }`,
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        }
       );
     } finally {
       setLoading(false);
@@ -76,7 +87,24 @@ const ShtoRezervim = () => {
       );
 
       if (response.status === 200) {
-        toast.success("Rezervimi u shtua me sukses!", { transition: Bounce });
+        await axios.post("https://teater-api.arkiva.gov.al/submit", {
+          film: movies.find((m) => m._id === movieId)?.title || "Event",
+          name: fullName,
+          email,
+          persona: nrPeople,
+        });
+
+        toast.success("Rezervimi u shtua me sukses!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
         setMovieId("");
         setFullName("");
         setEmail("");
@@ -84,7 +112,17 @@ const ShtoRezervim = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error("Ndodhi një gabim gjatë ruajtjes!", { transition: Bounce });
+      toast.error("Ndodhi një gabim gjatë ruajtjes!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
     } finally {
       setLoading(false);
     }

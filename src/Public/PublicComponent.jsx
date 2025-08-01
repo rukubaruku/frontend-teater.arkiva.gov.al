@@ -72,6 +72,14 @@ const PublicComponent = () => {
         });
 
         toast.success("Rezervimi u shtua dhe emaili u dërgua me sukses!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
           transition: Bounce,
         });
 
@@ -85,7 +93,17 @@ const PublicComponent = () => {
       toast.error(
         error.response?.data?.message ||
           "Ndodhi një gabim gjatë ruajtjes ose dërgimit të emailit!",
-        { transition: Bounce }
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        }
       );
     } finally {
       setLoading(false);
