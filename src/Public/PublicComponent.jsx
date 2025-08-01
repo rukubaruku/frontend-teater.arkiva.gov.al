@@ -24,15 +24,7 @@ const PublicComponent = () => {
         setMovies(response.data);
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || "Gabim gjatë marrjes së filmave!",
-        {
-          position: "top-right",
-          autoClose: 5000,
-          theme: "light",
-          transition: Bounce,
-        }
-      );
+      console.log(error);
     } finally {
       setLoading(false);
     }
