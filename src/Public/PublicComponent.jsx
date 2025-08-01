@@ -8,7 +8,6 @@ const PublicComponent = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState([]);
 
-  // Form states
   const [movieId, setMovieId] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -19,7 +18,7 @@ const PublicComponent = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:5000/api/movies/pending"
+        "https://teater-api.arkiva.gov.al/api/movies/pending"
       );
       if (response.status === 200) {
         setMovies(response.data);
@@ -43,7 +42,6 @@ const PublicComponent = () => {
     fetchMovies();
   }, []);
 
-  // Validate form
   const isValid = () => {
     const newErrors = {};
     if (!movieId) newErrors.movieId = "Zgjidhni një event!";
@@ -64,7 +62,7 @@ const PublicComponent = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/api/reservations/new",
+        "https://teater-api.arkiva.gov.al/api/reservations/new",
         {
           fullName,
           email,
@@ -74,8 +72,17 @@ const PublicComponent = () => {
       );
 
       if (response.status === 200) {
-        toast.success("Rezervimi u shtua me sukses!", { transition: Bounce });
-        // Reset form
+        await axios.post("https://teater-api.arkiva.gov.al/submit", {
+          film: movies.find((m) => m._id === movieId)?.title || "Event",
+          name: fullName,
+          email,
+          persona: nrPeople,
+        });
+
+        toast.success("Rezervimi u shtua dhe emaili u dërgua me sukses!", {
+          transition: Bounce,
+        });
+
         setMovieId("");
         setFullName("");
         setEmail("");
@@ -84,7 +91,8 @@ const PublicComponent = () => {
     } catch (error) {
       console.error(error);
       toast.error(
-        error.response?.data?.message || "Ndodhi një gabim gjatë ruajtjes!",
+        error.response?.data?.message ||
+          "Ndodhi një gabim gjatë ruajtjes ose dërgimit të emailit!",
         { transition: Bounce }
       );
     } finally {
@@ -100,7 +108,6 @@ const PublicComponent = () => {
           <div className="booking-form">
             <div className="form-title">Rezervoni vendin tuaj</div>
             <div className="form-inputs">
-              {/* Movie selection */}
               <div className="input-group">
                 <div className="input-label">
                   Zgjidhni eventin që doni të ndiqni:

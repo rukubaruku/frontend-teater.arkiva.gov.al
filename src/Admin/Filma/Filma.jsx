@@ -12,7 +12,9 @@ const Filma = () => {
   const fetchMovies = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/api/movies");
+      const response = await axios.get(
+        "https://teater-api.arkiva.gov.al/api/movies"
+      );
       if (response.status === 200) {
         setMovies(response.data);
       }

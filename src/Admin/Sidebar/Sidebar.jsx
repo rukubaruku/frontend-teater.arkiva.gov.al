@@ -57,20 +57,15 @@ const Sidebar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      const response = await axios.post("/auth/logout");
-      localStorage.clear();
-      navigate("/login");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   const toggleSidebar = () => {
     if (sidebarMode === "toggleable" || sidebarMode === "locked-open") {
       setIsOpen(!isOpen);
     }
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/login");
   };
 
   return (

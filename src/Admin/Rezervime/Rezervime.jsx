@@ -20,7 +20,7 @@ const Rezervime = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/reservations/filter`,
+        `https://teater-api.arkiva.gov.al/api/reservations/filter`,
         { movieIds }
       );
 
@@ -45,7 +45,9 @@ const Rezervime = () => {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/movies");
+      const response = await axios.get(
+        "https://teater-api.arkiva.gov.al/api/movies"
+      );
       if (Array.isArray(response.data)) {
         setMovies(response.data);
       } else {
@@ -148,6 +150,7 @@ const Rezervime = () => {
 
   const columns = [
     { field: "fullName", header: "Emër mbiemër", size: 500 },
+    { field: "email", header: "Email", size: 200 },
     { field: "nrPeople", header: "Nr. personave", size: 100 },
   ];
 

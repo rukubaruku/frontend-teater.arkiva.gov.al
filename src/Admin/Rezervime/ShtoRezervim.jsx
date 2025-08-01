@@ -10,6 +10,7 @@ const ShtoRezervim = () => {
   const [movies, setMovies] = useState([]);
   const [movieId, setMovieId] = useState("");
   const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
   const [nrPeople, setNrPeople] = useState("");
   const [inputErrors, setInputErrors] = useState({});
   const navigate = useNavigate();
@@ -18,7 +19,8 @@ const ShtoRezervim = () => {
     const errors = {};
 
     if (!movieId) errors.movieId = "Zgjidh një film!";
-    if (!fullName) errors.fullName = "Emri i plotë nuk mund të jetë bosh!";
+    if (!fullName) errors.fullName = "Emri nuk mund të jetë bosh!";
+    if (!email) errors.email = "Email nuk mund të jetë bosh!";
     if (!nrPeople || isNaN(nrPeople) || parseInt(nrPeople) <= 0)
       errors.nrPeople = "Vendos një numër të vlefshëm personash!";
 
@@ -29,7 +31,9 @@ const ShtoRezervim = () => {
   const fetchMovies = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:5000/api/movies");
+      const response = await axios.get(
+        "https://teater-api.arkiva.gov.al/api/movies"
+      );
       if (response.status === 200) {
         setMovies(response.data);
       }
@@ -62,9 +66,10 @@ const ShtoRezervim = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:5000/api/reservations/new",
+        "https://teater-api.arkiva.gov.al/api/reservations/new",
         {
           fullName,
+          email,
           nrPeople,
           movie: movieId,
         }
@@ -74,6 +79,7 @@ const ShtoRezervim = () => {
         toast.success("Rezervimi u shtua me sukses!", { transition: Bounce });
         setMovieId("");
         setFullName("");
+        setEmail("");
         setNrPeople("");
       }
     } catch (error) {
@@ -166,6 +172,24 @@ const ShtoRezervim = () => {
                   />
                   {inputErrors.fullName && (
                     <div className="error-message">{inputErrors.fullName}</div>
+                  )}
+                </div>
+              </div>
+              <div className="form-field">
+                <label className="field-label">
+                  <i className="fa-solid fa-user"></i>
+                  Email
+                </label>
+                <div className="field-input">
+                  <input
+                    type="text"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Vendosni emailin"
+                    className={inputErrors.email ? "error-input" : ""}
+                  />
+                  {inputErrors.email && (
+                    <div className="error-message">{inputErrors.email}</div>
                   )}
                 </div>
               </div>
