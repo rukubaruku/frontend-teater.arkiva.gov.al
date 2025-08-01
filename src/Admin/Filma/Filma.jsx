@@ -15,35 +15,44 @@ const Filma = () => {
       const response = await axios.get(
         "https://teater-api.arkiva.gov.al/api/movies"
       );
+
       if (response.status === 200) {
         const now = new Date();
 
-        const updatedMovies = response.data.map((movie) => {
-          const movieDateTime = new Date(`${movie.date}T${movie.time}`);
+        const updatedMovies = await Promise.all(
+          response.data.map(async (movie) => {
+            const movieDateTime = new Date(`${movie.date}T${movie.time}`);
+            const formattedDate = new Date(movie.date)
+              .toLocaleDateString("sq-AL")
+              .replace(/\//g, ".");
 
-          const formattedDate = new Date(movie.date).toLocaleDateString(
-            "sq-AL",
-            {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
+            let status = movie.status;
+
+            if (status === "pending" && movieDateTime < now) {
+              try {
+                await axios.patch(
+                  `https://teater-api.arkiva.gov.al/api/movies/${movie._id}`,
+                  { status: "completed" }
+                );
+                status = "completed";
+              } catch (err) {
+                console.error(
+                  `Failed to update status for movie ${movie.title}`,
+                  err
+                );
+              }
             }
-          );
 
-          let status = movie.status;
-          if (status === "pending" && movieDateTime < now) {
-            status = "completed";
-          }
+            const translatedStatus =
+              status === "pending" ? "Në pritje" : "Përfunduar";
 
-          const translatedStatus =
-            status === "pending" ? "Në pritje" : "Përfunduar";
-
-          return {
-            ...movie,
-            date: formattedDate,
-            status: translatedStatus,
-          };
-        });
+            return {
+              ...movie,
+              date: formattedDate,
+              status: translatedStatus,
+            };
+          })
+        );
 
         setMovies(updatedMovies);
       }

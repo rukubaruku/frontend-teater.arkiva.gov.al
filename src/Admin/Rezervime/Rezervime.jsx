@@ -65,26 +65,46 @@ const Rezervime = () => {
   };
 
   const exportCSV = () => {
-    let title = "All Reservations";
-    if (selectedMovieIds.length > 0) {
-      const selectedTitles = movies
-        .filter((m) => selectedMovieIds.includes(m._id))
-        .map((m) => m.title)
-        .join(", ");
-      title = selectedTitles || title;
-    }
+    const moviesToExport =
+      selectedMovieIds.length > 0
+        ? movies.filter((m) => selectedMovieIds.includes(m._id))
+        : movies;
 
     let csvContent = "\uFEFF";
 
-    csvContent += `Titulli i filmit: ${title}\n`;
-    csvContent += `Emër mbiemër,Nr.personave\n`;
+    moviesToExport.forEach((movie) => {
+      const reservationsForMovie = filteredReservations.filter(
+        (r) => r.movie === movie._id
+      );
 
-    filteredReservations.forEach((r) => {
-      csvContent += `${r.fullName},${r.nrPeople}\n`;
+      if (reservationsForMovie.length === 0) return;
+
+      const totalPeople = reservationsForMovie.reduce(
+        (acc, r) => acc + (r.nrPeople || 0),
+        0
+      );
+
+      csvContent += `Titulli: ${movie.title}\n`;
+      csvContent += `Data: ${movie.date || "-"}\n`;
+      csvContent += `Ora: ${movie.time || "-"}\n`;
+      csvContent += `Rezervuar: ${totalPeople}\n`;
+      csvContent += `Emër mbiemër,Nr.Personave\n`;
+
+      reservationsForMovie.forEach((r) => {
+        csvContent += `${r.fullName},${r.nrPeople}\n`;
+      });
+
+      csvContent += `\n`;
     });
 
+    const fileName = (
+      selectedMovieIds.length > 0
+        ? moviesToExport.map((m) => m.title).join("_")
+        : "All_Reservations"
+    ).replace(/\s+/g, "_");
+
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    saveAs(blob, `${title.replace(/\s+/g, "_")}_rezervime.csv`);
+    saveAs(blob, `${fileName}_rezervime.csv`);
   };
 
   const exportPDF = () => {
@@ -103,15 +123,33 @@ const Rezervime = () => {
 
       if (reservationsForMovie.length === 0) return;
 
+      const totalPeople = reservationsForMovie.reduce(
+        (acc, r) => acc + (r.nrPeople || 0),
+        0
+      );
+
       doc.setFont("helvetica", "bold");
       doc.setFontSize(16);
-      doc.text(`Titulli i filmit: ${movie.title}`, 10, y);
+      doc.text(`Titulli: ${movie.title}`, 10, y);
       y += 10;
-
       doc.setFont("helvetica", "normal");
       doc.setFontSize(14);
+      doc.text(`Data: ${movie.date || "-"}`, 10, y);
+      y += 8;
+      doc.text(`Ora: ${movie.time || "-"}`, 10, y);
+      y += 8;
+      doc.text(`Rezervuar: ${totalPeople}`, 10, y);
+      y += 10;
+
+      doc.setFont("helvetica", "bold");
+      doc.text("Emër mbiemër", 10, y);
+      doc.text("Nr. Personave", 120, y);
+      y += 8;
+
+      doc.setFont("helvetica", "normal");
       reservationsForMovie.forEach((r) => {
-        doc.text(`• ${r.fullName} => ${r.nrPeople}`, 15, y);
+        doc.text(r.fullName || "-", 10, y);
+        doc.text(`${r.nrPeople}`, 120, y);
         y += 8;
 
         if (y > 270) {

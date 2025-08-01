@@ -191,7 +191,7 @@ const ShtoRezervim = () => {
               <div className="form-field">
                 <label className="field-label">
                   <i className="fa-solid fa-user"></i>
-                  Emri i plotë
+                  Emër Mbiemër
                 </label>
                 <div className="field-input">
                   <input
