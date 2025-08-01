@@ -59,7 +59,7 @@ const PublicComponent = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://teater-api.arkiva.gov.al/reservations/new",
+        "https://teater-api.arkiva.gov.al/api/reservations/new",
         {
           fullName,
           email,
