@@ -132,7 +132,7 @@ const Rezervime = () => {
       doc.setFontSize(16);
       doc.text(`Titulli: ${movie.title}`, 10, y);
       y += 10;
-      doc.setFont("helvetica", "normal");
+      doc.setFont("helvetica", "bold");
       doc.setFontSize(14);
       doc.text(`Data: ${movie.date || "-"}`, 10, y);
       y += 8;

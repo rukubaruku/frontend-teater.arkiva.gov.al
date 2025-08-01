@@ -95,7 +95,6 @@
   border-bottom: 1px solid #e1e5e9;
   box-sizing: border-box;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  /* position: relative; */
   margin-left: -16px;
   margin-right: -16px;
   padding-left: 48px;
@@ -308,4 +307,30 @@
 
 .pop-up-actions button.confirm-delete:hover {
   background-color: #c81d25;
+}
+
+@media (width <= 992px) {
+  .layout {
+    height: 100vh;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+  }
+
+  .page-content {
+    height: 100%;
+  }
+
+  .page-header {
+    border-radius: 0;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+}
+
+.layout.navbar-visible {
+  height: 100vh;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
 }

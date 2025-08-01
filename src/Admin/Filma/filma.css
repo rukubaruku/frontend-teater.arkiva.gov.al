@@ -6,6 +6,8 @@
   max-width: 100%;
   width: 100%;
   align-items: center;
+  box-sizing: border-box;
+  padding: 20px 60px;
 }
 
 .add-movie-card {
@@ -16,7 +18,7 @@
   overflow: hidden;
   transition: all 0.3s ease;
   width: 100%;
-  max-width: 900px;
+  max-width: 100%;
   margin-top: 40px;
 }
 
@@ -217,4 +219,16 @@
   background: linear-gradient(135deg, #20c997 0%, #1ea085 100%);
   transform: translateY(-1px);
   box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+@media (width<=1225px) {
+  .add-movie-card .form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (width<=800px) {
+  .add-movie-container {
+    padding: 20px 40px;
+  }
 }

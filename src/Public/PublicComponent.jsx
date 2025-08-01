@@ -59,7 +59,7 @@ const PublicComponent = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://teater-api.arkiva.gov.al/api/reservations/new",
+        "https://teater-api.arkiva.gov.al/reservations/new",
         {
           fullName,
           email,
@@ -194,13 +194,12 @@ const PublicComponent = () => {
                   <div className="error-message">{errors.nrPeople}</div>
                 )}
               </div>
-
-              {/* Submit button */}
-              <div className="send-btn">
-                <button disabled={loading} onClick={addReservation}>
-                  {loading ? "Duke dërguar..." : "Dërgo"}
-                </button>
-              </div>
+            </div>
+            {/* Submit button */}
+            <div className="send-btn">
+              <button disabled={loading} onClick={addReservation}>
+                {loading ? "Duke dërguar..." : "Dërgo"}
+              </button>
             </div>
           </div>
         </div>

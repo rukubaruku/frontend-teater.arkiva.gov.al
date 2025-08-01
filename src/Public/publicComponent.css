@@ -204,3 +204,76 @@ body {
   font-weight: 400;
   color: #fff;
 }
+
+@media (width<=1090px) {
+  .description {
+    padding-right: 30px;
+  }
+}
+
+@media (width<=930px) {
+  .booking-form {
+    width: 310px;
+  }
+
+  .booking-container {
+    grid-template-columns: 370px auto;
+  }
+}
+
+@media (width<=800px) {
+  .booking {
+    overflow-x: hidden;
+  }
+  .booking-container {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    overflow-x: hidden;
+  }
+
+  .description {
+    box-sizing: border-box;
+    padding: 30px 50px 0;
+    overflow-x: hidden;
+  }
+
+  .description-image {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .description-image img {
+    height: 100px;
+    width: auto;
+  }
+
+  .booking-container {
+    padding-bottom: 50px;
+  }
+
+  .booking-form {
+    width: auto;
+  }
+
+  .form-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: center;
+    gap: 24px;
+  }
+}
+
+@media (width<=730px) {
+  .form-inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+  }
+}

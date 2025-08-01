@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../Assets/Images/SideBarLogo.png";
 import "./sidebar.css";
-import axios from "axios";
 
 const Sidebar = () => {
   const [sidebarMode, setSidebarMode] = useState("locked-open");
@@ -114,7 +113,7 @@ const Sidebar = () => {
               <div className="sidebar-subtitle">Settings</div>
               <div className="sidebar-footer-buttons">
                 <button
-                  onClick={() => navigate("/profilo")}
+                  onClick={() => navigate("/profili")}
                   title={!isOpen ? "Settings" : ""}
                   className={`sidebar-nav-button ${
                     location.pathname.includes("/profilo") ? "active" : ""
