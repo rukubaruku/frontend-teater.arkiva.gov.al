@@ -16,10 +16,39 @@ const Filma = () => {
         "https://teater-api.arkiva.gov.al/api/movies"
       );
       if (response.status === 200) {
-        setMovies(response.data);
+        const now = new Date();
+
+        const updatedMovies = response.data.map((movie) => {
+          const movieDateTime = new Date(`${movie.date}T${movie.time}`);
+
+          const formattedDate = new Date(movie.date).toLocaleDateString(
+            "sq-AL",
+            {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            }
+          );
+
+          let status = movie.status;
+          if (status === "pending" && movieDateTime < now) {
+            status = "completed";
+          }
+
+          const translatedStatus =
+            status === "pending" ? "Në pritje" : "Përfunduar";
+
+          return {
+            ...movie,
+            date: formattedDate,
+            status: translatedStatus,
+          };
+        });
+
+        setMovies(updatedMovies);
       }
     } catch (error) {
-      toast.error(`${error.response.data.message}`, {
+      toast.error(`${error?.response?.data?.message || "Gabim në server"}`, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
