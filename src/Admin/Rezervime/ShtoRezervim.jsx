@@ -87,13 +87,6 @@ const ShtoRezervim = () => {
       );
 
       if (response.status === 200) {
-        await axios.post("https://teater-api.arkiva.gov.al/submit", {
-          film: movies.find((m) => m._id === movieId)?.title || "Event",
-          name: fullName,
-          email,
-          persona: nrPeople,
-        });
-
         toast.success("Rezervimi u shtua me sukses!", {
           position: "top-right",
           autoClose: 5000,
