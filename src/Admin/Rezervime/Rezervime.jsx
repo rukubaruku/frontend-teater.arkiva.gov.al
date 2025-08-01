@@ -80,7 +80,7 @@ const Rezervime = () => {
       if (reservationsForMovie.length === 0) return;
 
       const totalPeople = reservationsForMovie.reduce(
-        (acc, r) => acc + (r.nrPeople || 0),
+        (acc, r) => acc + Number(r.nrPeople || 0),
         0
       );
 
@@ -124,7 +124,7 @@ const Rezervime = () => {
       if (reservationsForMovie.length === 0) return;
 
       const totalPeople = reservationsForMovie.reduce(
-        (acc, r) => acc + (r.nrPeople || 0),
+        (acc, r) => acc + Number(r.nrPeople || 0),
         0
       );
 

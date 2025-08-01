@@ -22,8 +22,13 @@ const Filma = () => {
         const updatedMovies = await Promise.all(
           response.data.map(async (movie) => {
             const movieDateTime = new Date(`${movie.date}T${movie.time}`);
+
             const formattedDate = new Date(movie.date)
-              .toLocaleDateString("sq-AL")
+              .toLocaleDateString("en-GB", {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+              })
               .replace(/\//g, ".");
 
             let status = movie.status;
