@@ -64,6 +64,16 @@ const Rezervime = () => {
     fetchReservations(ids);
   };
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "-";
+    const date = new Date(dateString);
+    if (isNaN(date)) return dateString;
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
   const exportCSV = () => {
     const moviesToExport =
       selectedMovieIds.length > 0
@@ -85,7 +95,7 @@ const Rezervime = () => {
       );
 
       csvContent += `Titulli: ${movie.title}\n`;
-      csvContent += `Data: ${movie.date || "-"}\n`;
+      csvContent += `Data: ${formatDate(movie.date)}\n`;
       csvContent += `Ora: ${movie.time || "-"}\n`;
       csvContent += `Rezervuar: ${totalPeople}\n`;
       csvContent += `Emër mbiemër,Nr.Personave\n`;
@@ -134,7 +144,7 @@ const Rezervime = () => {
       y += 10;
       doc.setFont("helvetica", "bold");
       doc.setFontSize(14);
-      doc.text(`Data: ${movie.date || "-"}`, 10, y);
+      doc.text(`Data: ${formatDate(movie.date)}`, 10, y);
       y += 8;
       doc.text(`Ora: ${movie.time || "-"}`, 10, y);
       y += 8;
@@ -143,13 +153,13 @@ const Rezervime = () => {
 
       doc.setFont("helvetica", "bold");
       doc.text("Emër mbiemër", 10, y);
-      doc.text("Nr. Personave", 120, y);
+      doc.text("Nr. Personave", 80, y);
       y += 8;
 
       doc.setFont("helvetica", "normal");
       reservationsForMovie.forEach((r) => {
         doc.text(r.fullName || "-", 10, y);
-        doc.text(`${r.nrPeople}`, 120, y);
+        doc.text(`${r.nrPeople}`, 80, y);
         y += 8;
 
         if (y > 270) {
