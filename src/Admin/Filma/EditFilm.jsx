@@ -194,8 +194,8 @@ const EditFilm = () => {
         </div>
       </div>
 
-      <div className="page-content edit-tipologia-container">
-        <div className="edit-tipologia-card">
+      <div className="page-content edit-movie-container">
+        <div className="edit-movie-card">
           <div className="card-header">
             <div className="card-title">
               <i className="fa-solid fa-film"></i>

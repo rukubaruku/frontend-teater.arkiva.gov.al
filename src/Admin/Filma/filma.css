@@ -233,20 +233,17 @@
   }
 }
 
-/* Modern TipologiaTitoli UI Styles */
-.add-tipologia-container,
-.edit-tipologia-container {
+.edit-movie-container {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding: 0;
+  padding: 50px 0;
   max-width: 100%;
   width: 100%;
   align-items: center;
 }
 
-.add-tipologia-card,
-.edit-tipologia-card,
+.edit-movie-card,
 .image-card {
   background: #ffffff;
   border-radius: 16px;
@@ -258,8 +255,7 @@
   max-width: 800px;
 }
 
-.add-tipologia-card:hover,
-.edit-tipologia-card:hover,
+.edit-movie-card:hover,
 .image-card:hover {
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   transform: translateY(-2px);
@@ -429,7 +425,7 @@
 }
 
 /* Action Buttons */
-.edit-tipologia-container .edit-tipologia-card .form-grid .action-buttons {
+.edit-movie-container .edit-movie-card .form-grid .action-buttons {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
@@ -506,34 +502,14 @@
   box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
 
-/* Image Container */
-.image-container {
-  padding: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.image-container img {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
 /* Responsive Design */
 @media (max-width: 768px) {
-  .add-tipologia-container,
-  .edit-tipologia-container {
+  .edit-movie-container {
     gap: 16px;
     padding: 0 8px;
   }
 
-  .add-tipologia-card,
-  .edit-tipologia-card,
-  .image-card {
+  .edit-movie-card {
     max-width: 100%;
   }
 
@@ -577,14 +553,6 @@
     width: 100%;
     justify-content: center;
   }
-
-  .image-container {
-    padding: 16px;
-  }
-
-  .image-container img {
-    max-width: 100%;
-  }
 }
 
 @media (max-width: 480px) {
@@ -609,177 +577,5 @@
 
   .image-container {
     padding: 12px;
-  }
-}
-
-/* Legacy styles for backward compatibility */
-.page-content.add-tipologia-titolo,
-.page-content.edit-tipologia-titolo {
-  overflow-y: auto;
-}
-
-.tipologia-form .field-label {
-  width: 270px;
-}
-
-.tipologia-form.add,
-.tipologia-form.editing {
-  gap: 30px;
-}
-
-.tipologia-image {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.tipologia-image.no-image {
-  display: none;
-}
-
-.tipologia-image img {
-  width: 500px;
-  height: auto;
-  border-radius: 8px;
-  object-fit: cover;
-}
-
-.tipologia-titoli-data {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 50px;
-}
-
-.tipologia-titoli .action-btns,
-.tipologia-form .action-btns {
-  grid-column: 1 / -1;
-  justify-content: flex-start;
-  align-items: center;
-  margin-left: 100px;
-}
-
-@media (width<=1340px) {
-  .tipologia-image img {
-    width: 400px;
-  }
-}
-
-@media (width<=1150px) {
-  .tipologia-image img {
-    width: 350px;
-  }
-}
-
-@media (width<=1110px) {
-  .tipologia-form .field-value {
-    width: 350px;
-  }
-}
-
-@media (width<=1090px) {
-  .tipologia-form .field-value {
-    width: 350px;
-  }
-}
-
-@media (width<=1060px) {
-  .tipologia-form .field-value {
-    width: 300px;
-  }
-}
-
-@media (width<=1030px) {
-  .tipologia-form .field-value {
-    width: 300px;
-  }
-}
-
-@media (width<=992px) {
-  .tipologia-image img {
-    width: 400px;
-  }
-
-  .tipologia-form .field-value {
-    width: 400px;
-  }
-}
-
-@media (width<=800px) {
-  .tipologia-image img {
-    width: 350px;
-  }
-}
-
-@media (width<=770px) {
-  .tipologia-form.edit .field-row {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .tipologia-form.edit {
-    gap: 30px;
-  }
-}
-
-@media (width<=740px) {
-  .tipologia-form .field-value {
-    width: 350px;
-  }
-
-  .tipologia-form .field-value {
-    width: 350px;
-  }
-}
-
-@media (width<=700px) {
-  .tipologia-form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .tipologia-form .field-row {
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .tipologia-form .field-row.punteggio {
-    flex-direction: row;
-  }
-
-  .tipologia-form .field-value {
-    width: 400px;
-  }
-
-  .tipologia-titoli .action-btns,
-  .tipologia-form .action-btns {
-    margin-left: 50px;
-  }
-}
-
-@media (width<=570px) {
-  .tipologia-image img {
-    width: 300px;
-  }
-
-  .tipologia-titoli .action-btns,
-  .tipologia-form .action-btns {
-    margin-left: 0px;
-  }
-}
-
-@media (height<=500px) {
-  .edit-tipologia-titolo {
-    overflow-y: auto;
-  }
-}
-
-@media (width<=480px) {
-  .tipologia-form .field-value {
-    width: 350px;
   }
 }

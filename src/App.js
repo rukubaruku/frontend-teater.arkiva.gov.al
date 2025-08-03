@@ -45,7 +45,7 @@ function App() {
               <Route path="/menaxho/filma" element={<Filma />} />
               <Route path="/menaxho/filma/shto-film" element={<ShtoFilm />} />
               <Route path="/menaxho/filma/:id" element={<EditFilm />} />
-              <Route path="/menaxho/rezervime" element={<EditFilm />} />
+              <Route path="/menaxho/rezervime" element={<Rezervime />} />
               <Route path="/menaxho/profili" element={<Profili />} />
               <Route
                 path="/menaxho/rezervime/shto-rezervim"
