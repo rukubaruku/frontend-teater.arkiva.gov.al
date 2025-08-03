@@ -232,3 +232,554 @@
     padding: 20px 40px;
   }
 }
+
+/* Modern TipologiaTitoli UI Styles */
+.add-tipologia-container,
+.edit-tipologia-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0;
+  max-width: 100%;
+  width: 100%;
+  align-items: center;
+}
+
+.add-tipologia-card,
+.edit-tipologia-card,
+.image-card {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(189, 30, 44, 0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 800px;
+}
+
+.add-tipologia-card:hover,
+.edit-tipologia-card:hover,
+.image-card:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid rgba(189, 30, 44, 0.1);
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #2b3240;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-title i {
+  color: #bd1e2c;
+  font-size: 18px;
+}
+
+.card-content {
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Form Grid Layout */
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.form-field.full-width {
+  grid-column: 1 / -1;
+}
+
+/* Header Actions */
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+}
+
+.back-btn:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.back-btn i {
+  font-size: 12px;
+}
+
+/* Form Fields */
+.field-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2b3240;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.field-label i {
+  color: #bd1e2c;
+  font-size: 14px;
+}
+
+.field-input {
+  position: relative;
+  width: 100%;
+}
+
+.field-input input,
+.field-input textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 16px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  transition: all 0.2s ease;
+  background: #ffffff;
+  color: #2b3240;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+.field-input input:focus,
+.field-input textarea:focus {
+  outline: none;
+  border-color: #bd1e2c;
+  box-shadow: 0 0 0 3px rgba(189, 30, 44, 0.1);
+}
+
+.field-input input::placeholder,
+.field-input textarea::placeholder {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.field-input input.error-input,
+.field-input textarea.error-input {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.readonly-value {
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #2b3240;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 500;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Error Messages */
+.error-message {
+  color: #dc3545;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 4px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Action Buttons */
+.edit-tipologia-container .edit-tipologia-card .form-grid .action-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 8px;
+  width: 100% !important;
+}
+
+.edit-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #bd1e2c 0%, #a0182a 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 4px rgba(189, 30, 44, 0.2);
+}
+
+.edit-btn:hover {
+  background: linear-gradient(135deg, #a0182a 0%, #8b1424 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(189, 30, 44, 0.3);
+}
+
+.cancel-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #6c757d 0%, #5a6268 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 4px rgba(108, 117, 125, 0.2);
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(135deg, #5a6268 0%, #495057 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+}
+
+.save-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 4px rgba(40, 167, 69, 0.2);
+}
+
+.save-btn:hover {
+  background: linear-gradient(135deg, #20c997 0%, #1ea085 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+/* Image Container */
+.image-container {
+  padding: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-container img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .add-tipologia-container,
+  .edit-tipologia-container {
+    gap: 16px;
+    padding: 0 8px;
+  }
+
+  .add-tipologia-card,
+  .edit-tipologia-card,
+  .image-card {
+    max-width: 100%;
+  }
+
+  .card-header {
+    padding: 20px 24px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .card-title {
+    font-size: 18px;
+  }
+
+  .card-content {
+    padding: 24px;
+    gap: 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cancel-btn,
+  .save-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .back-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .image-container {
+    padding: 16px;
+  }
+
+  .image-container img {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .card-header {
+    padding: 16px 20px;
+  }
+
+  .card-content {
+    padding: 20px;
+  }
+
+  .field-input input,
+  .field-input textarea,
+  .readonly-value {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .field-label {
+    font-size: 14px;
+  }
+
+  .image-container {
+    padding: 12px;
+  }
+}
+
+/* Legacy styles for backward compatibility */
+.page-content.add-tipologia-titolo,
+.page-content.edit-tipologia-titolo {
+  overflow-y: auto;
+}
+
+.tipologia-form .field-label {
+  width: 270px;
+}
+
+.tipologia-form.add,
+.tipologia-form.editing {
+  gap: 30px;
+}
+
+.tipologia-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tipologia-image.no-image {
+  display: none;
+}
+
+.tipologia-image img {
+  width: 500px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.tipologia-titoli-data {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 50px;
+}
+
+.tipologia-titoli .action-btns,
+.tipologia-form .action-btns {
+  grid-column: 1 / -1;
+  justify-content: flex-start;
+  align-items: center;
+  margin-left: 100px;
+}
+
+@media (width<=1340px) {
+  .tipologia-image img {
+    width: 400px;
+  }
+}
+
+@media (width<=1150px) {
+  .tipologia-image img {
+    width: 350px;
+  }
+}
+
+@media (width<=1110px) {
+  .tipologia-form .field-value {
+    width: 350px;
+  }
+}
+
+@media (width<=1090px) {
+  .tipologia-form .field-value {
+    width: 350px;
+  }
+}
+
+@media (width<=1060px) {
+  .tipologia-form .field-value {
+    width: 300px;
+  }
+}
+
+@media (width<=1030px) {
+  .tipologia-form .field-value {
+    width: 300px;
+  }
+}
+
+@media (width<=992px) {
+  .tipologia-image img {
+    width: 400px;
+  }
+
+  .tipologia-form .field-value {
+    width: 400px;
+  }
+}
+
+@media (width<=800px) {
+  .tipologia-image img {
+    width: 350px;
+  }
+}
+
+@media (width<=770px) {
+  .tipologia-form.edit .field-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .tipologia-form.edit {
+    gap: 30px;
+  }
+}
+
+@media (width<=740px) {
+  .tipologia-form .field-value {
+    width: 350px;
+  }
+
+  .tipologia-form .field-value {
+    width: 350px;
+  }
+}
+
+@media (width<=700px) {
+  .tipologia-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .tipologia-form .field-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .tipologia-form .field-row.punteggio {
+    flex-direction: row;
+  }
+
+  .tipologia-form .field-value {
+    width: 400px;
+  }
+
+  .tipologia-titoli .action-btns,
+  .tipologia-form .action-btns {
+    margin-left: 50px;
+  }
+}
+
+@media (width<=570px) {
+  .tipologia-image img {
+    width: 300px;
+  }
+
+  .tipologia-titoli .action-btns,
+  .tipologia-form .action-btns {
+    margin-left: 0px;
+  }
+}
+
+@media (height<=500px) {
+  .edit-tipologia-titolo {
+    overflow-y: auto;
+  }
+}
+
+@media (width<=480px) {
+  .tipologia-form .field-value {
+    width: 350px;
+  }
+}

@@ -113,14 +113,14 @@ const Sidebar = () => {
               <div className="sidebar-subtitle">Settings</div>
               <div className="sidebar-footer-buttons">
                 <button
-                  onClick={() => navigate("/profili")}
+                  onClick={() => navigate("/menaxho/profili")}
                   title={!isOpen ? "Settings" : ""}
                   className={`sidebar-nav-button ${
                     location.pathname.includes("/profilo") ? "active" : ""
                   }`}
                 >
                   <i className="fa-solid fa-gear" />
-                  {isOpen && <span>Profile</span>}
+                  {isOpen && <span>profili</span>}
                 </button>
 
                 <button

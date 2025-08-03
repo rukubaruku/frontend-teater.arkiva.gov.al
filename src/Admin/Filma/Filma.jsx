@@ -1,12 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Bounce, toast } from "react-toastify";
 import Table from "../../Table/Table";
 import axios from "axios";
+import CustomSelect from "../../CustomSelect";
 
 const Filma = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(null);
+
   const navigate = useNavigate();
 
   const fetchMovies = async () => {
@@ -32,7 +35,6 @@ const Filma = () => {
               .replace(/\//g, ".");
 
             let status = movie.status;
-
             if (status === "pending" && movieDateTime < now) {
               try {
                 await axios.patch(
@@ -53,7 +55,9 @@ const Filma = () => {
 
             return {
               ...movie,
+              id: movie._id,
               date: formattedDate,
+              rawDate: movie.date,
               status: translatedStatus,
             };
           })
@@ -65,11 +69,6 @@ const Filma = () => {
       toast.error(`${error?.response?.data?.message || "Gabim në server"}`, {
         position: "top-right",
         autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
         theme: "light",
         transition: Bounce,
       });
@@ -82,7 +81,6 @@ const Filma = () => {
     const loggedUser = localStorage.getItem("loggedUser_id");
     if (!loggedUser) {
       alert("Hyr per te pare filmat!");
-
       navigate("/login");
       localStorage.clear();
     } else {
@@ -92,14 +90,35 @@ const Filma = () => {
 
   const columns = [
     { field: "title", header: "Titulli", size: 400 },
-    { field: "date", header: "Data", size: 100 },
-    { field: "time", header: "Ora", size: 100 },
-    { field: "status", header: "Statusi", size: 100 },
+    { field: "date", header: "Data" },
+    { field: "time", header: "Ora" },
+    { field: "status", header: "Statusi" },
   ];
 
   const handleRowClick = (movie) => {
-    navigate(`/menaxho/film/${movie.id}`);
+    navigate(`/menaxho/filma/${movie.id}`);
   };
+
+  const yearOptions = [
+    { label: "2024", value: 2024 },
+    { label: "2025", value: 2025 },
+    { label: "2026", value: 2026 },
+  ];
+
+  const handleYearChange = (selectedOption) => {
+    setSelectedYear(selectedOption ? selectedOption.value : null);
+  };
+
+  const handleClearFilters = () => {
+    setSelectedYear(null);
+  };
+
+  const filteredMovies = useMemo(() => {
+    return movies.filter((movie) => {
+      const movieYear = new Date(movie.rawDate).getFullYear();
+      return !selectedYear || movieYear === selectedYear;
+    });
+  }, [movies, selectedYear]);
 
   return (
     <div className="content-page">
@@ -121,8 +140,67 @@ const Filma = () => {
       </div>
 
       <div className="page-content users">
-        {movies && (
-          <Table columns={columns} data={movies} onRowClick={handleRowClick} />
+        <div className="filters-card">
+          <div className="card-header">
+            <div className="card-title">
+              <i className="fa-solid fa-filter"></i>
+              Filtro sipas vitit
+            </div>
+            {selectedYear && (
+              <button
+                className="clear-filters-btn"
+                onClick={handleClearFilters}
+              >
+                <i className="fa-solid fa-times"></i>
+                Hiq filtrat
+              </button>
+            )}
+          </div>
+
+          <div className="card-content">
+            <div className="filters-grid">
+              <div className="filter-field">
+                <label className="filter-label">
+                  <i className="fa-solid fa-calendar"></i>
+                  Viti
+                </label>
+                <div className="filter-input">
+                  <CustomSelect
+                    options={yearOptions}
+                    value={
+                      selectedYear
+                        ? yearOptions.find((y) => y.value === selectedYear)
+                        : null
+                    }
+                    onChange={handleYearChange}
+                    placeholder="Zgjidh vit"
+                    isMulti={false}
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="filters-summary">
+              <div className="active-filters">
+                {selectedYear && (
+                  <span className="filter-tag">
+                    <i className="fa-solid fa-calendar"></i>
+                    Viti: {selectedYear}
+                  </span>
+                )}
+              </div>
+              <div className="results-count">
+                {filteredMovies.length} filma të gjetura
+              </div>
+            </div>
+          </div>
+        </div>
+        {filteredMovies && (
+          <Table
+            columns={columns}
+            data={filteredMovies}
+            onRowClick={handleRowClick}
+          />
         )}
       </div>
     </div>

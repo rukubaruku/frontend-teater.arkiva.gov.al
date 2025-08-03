@@ -16,6 +16,10 @@ const Login = () => {
   const handleLogIn = async () => {
     const userToLogin = { email: emailL, password: passwordL };
     try {
+      // const response = await axios.post(
+      //   "https://teater-api.arkiva.gov.al/api/users/login",
+      //   userToLogin
+      // );
       const response = await axios.post(
         "https://teater-api.arkiva.gov.al/api/users/login",
         userToLogin

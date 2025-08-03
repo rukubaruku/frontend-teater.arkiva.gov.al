@@ -62,7 +62,7 @@ const Navbar = () => {
   };
 
   const handleEditUser = () => {
-    navigate("/profili");
+    navigate("/menaxho/profili");
     setOpenDropdownMenu(false);
   };
 
@@ -99,7 +99,7 @@ const Navbar = () => {
             <div className="profile-menu">
               <ul>
                 <li onClick={handleEditUser}>
-                  <i className="fa-solid fa-user"></i> Profile
+                  <i className="fa-solid fa-user"></i> Profili
                 </li>
                 <li onClick={handleLogOut}>
                   <i className="fa-solid fa-right-from-bracket"></i> Log out

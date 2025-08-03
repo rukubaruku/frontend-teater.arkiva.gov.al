@@ -1,0 +1,119 @@
+.dashboard {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 42px;
+  overflow: hidden;
+  padding: 70px 32px;
+}
+
+.dashboard-widgets {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  gap: 30px;
+  box-sizing: border-box;
+  justify-items: center;
+}
+
+.widget {
+  height: 90px;
+  width: 300px;
+  background-color: #f4f6f8;
+  border-radius: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  padding: 16px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.dashboard-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.widget-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.widget-icon {
+  height: 100%;
+  padding: 0 20px;
+}
+
+.widget-icon i {
+  font-size: 32px;
+}
+
+.widget-icon.movies {
+  background-color: #bbdefb;
+}
+
+.widget-icon.movies i {
+  color: #1565c0;
+}
+
+.widget-icon.reservations {
+  background-color: #fff0f3;
+}
+
+.widget-icon.reservations i {
+  color: #ff4d6d;
+}
+
+.dashboard-info span {
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.widget-title {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.dashboard-charts {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 30px;
+}
+
+.line-chart {
+  width: 90%;
+  height: 400px;
+  margin: 0 auto;
+}
+
+.container .slice {
+  background-color: white;
+  border-radius: 10px;
+}
+
+@media (width<=1300px) {
+  .line-chart {
+    width: 100%;
+  }
+}
+
+@media (width<=690px) {
+  .dashboard-widgets {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}

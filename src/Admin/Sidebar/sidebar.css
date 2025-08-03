@@ -98,6 +98,7 @@
 
 .sidebar-footer-buttons {
   width: 100%;
+  padding: 16px 0;
 }
 
 .sidebar.collapsed .sidebar-content .sidebar-buttons button,

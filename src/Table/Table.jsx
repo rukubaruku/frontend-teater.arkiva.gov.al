@@ -48,8 +48,8 @@ const Table = ({ columns, data, onRowClick }) => {
     enableColumnActions: true,
     enableDensityToggle: true,
     enableFullScreenToggle: true,
-    enableColumnResizing: true,
-    columnResizeMode: "onChange",
+    // enableColumnResizing: true,
+    // columnResizeMode: "onChange",
 
     // English localization
     localization: {

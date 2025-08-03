@@ -10,6 +10,9 @@ import Rezervime from "./Admin/Rezervime/Rezervime";
 import ShtoRezervim from "./Admin/Rezervime/ShtoRezervim";
 import { useEffect, useState } from "react";
 import Navbar from "./Admin/Navbar/Navbar";
+import Dashboard from "./Admin/Dashboard/Dashboard";
+import Profili from "./Admin/Profili/Profili";
+import EditFilm from "./Admin/Filma/EditFilm";
 
 function App() {
   const location = useLocation();
@@ -38,10 +41,12 @@ function App() {
           {!showSidebar && <Navbar />}
           <div className="content-page">
             <Routes>
-              <Route path="/menaxho/dashboard" element={<div>Dashboard</div>} />
+              <Route path="/menaxho/dashboard" element={<Dashboard />} />
               <Route path="/menaxho/filma" element={<Filma />} />
               <Route path="/menaxho/filma/shto-film" element={<ShtoFilm />} />
-              <Route path="/menaxho/rezervime" element={<Rezervime />} />
+              <Route path="/menaxho/filma/:id" element={<EditFilm />} />
+              <Route path="/menaxho/rezervime" element={<EditFilm />} />
+              <Route path="/menaxho/profili" element={<Profili />} />
               <Route
                 path="/menaxho/rezervime/shto-rezervim"
                 element={<ShtoRezervim />}
