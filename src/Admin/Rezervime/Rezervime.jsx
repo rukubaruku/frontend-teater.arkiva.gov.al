@@ -23,7 +23,7 @@ const Rezervime = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:3107/api/reservations/filter`,
+        `https://teater-api.arkiva.gov.al/api/reservations/filter`,
         { movieIds }
       );
 
@@ -48,7 +48,9 @@ const Rezervime = () => {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get("http://localhost:3107/api/movies");
+      const response = await axios.get(
+        "https://teater-api.arkiva.gov.al/api/movies"
+      );
       if (Array.isArray(response.data)) {
         setMovies(response.data);
       } else {
@@ -227,7 +229,7 @@ const Rezervime = () => {
     try {
       setLoading(true);
       const response = await axios.delete(
-        `http://localhost:3107/api/reservations/delete/${selectedReservationId}`
+        `https://teater-api.arkiva.gov.al/api/reservations/delete/${selectedReservationId}`
       );
 
       if (response.status === 200) {

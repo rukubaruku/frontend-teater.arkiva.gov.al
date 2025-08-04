@@ -29,7 +29,7 @@ const Profili = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:3107/api/users/${loggedUser}`
+        `https://teater-api.arkiva.gov.al/api/users/${loggedUser}`
       );
       if (res.status === 200) {
         setUser(res.data);
@@ -121,7 +121,7 @@ const Profili = () => {
       };
 
       const res = await axios.put(
-        `http://localhost:3107/api/users/update/${loggedUser}`,
+        `https://teater-api.arkiva.gov.al/api/users/update/${loggedUser}`,
         payload
       );
 
@@ -216,7 +216,7 @@ const Profili = () => {
     try {
       setLoading(true);
       const response = await axios.put(
-        `http://localhost:3107/api/users/reset-password/${loggedUser}`,
+        `https://teater-api.arkiva.gov.al/api/users/reset-password/${loggedUser}`,
         {
           currentPassword,
           newPassword,
