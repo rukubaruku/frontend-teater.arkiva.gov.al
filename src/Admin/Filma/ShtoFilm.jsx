@@ -175,6 +175,7 @@ const ShtoFilm = () => {
                     className={`your-custom-input ${
                       inputErrors.date ? "error-input" : ""
                     }`}
+                    popperPlacement="bottom-start"
                   />
                   {inputErrors.date && (
                     <div className="error-message">{inputErrors.date}</div>

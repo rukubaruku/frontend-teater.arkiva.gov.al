@@ -147,7 +147,7 @@ const PublicComponent = () => {
                     onChange={(selected) =>
                       setMovieId(selected ? selected.value : "")
                     }
-                    placeholder="-- Zgjidh event --"
+                    placeholder="-- Zgjidhni eventin --"
                   />
                   {errors.movieId && (
                     <div className="error-message">{errors.movieId}</div>
