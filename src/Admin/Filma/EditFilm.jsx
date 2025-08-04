@@ -4,19 +4,19 @@ import "./filma.css";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import CustomSelect from "../../CustomSelect";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const EditFilm = () => {
   const [loading, setLoading] = useState(true);
   const [film, setFilm] = useState(null);
   const loggedUser = localStorage.getItem("loggedUser_id");
   const [status, setStatus] = useState("");
-
   const [form, setForm] = useState({
     title: "",
     date: "",
     time: "",
   });
-
   const [errors, setErrors] = useState({});
   const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
@@ -25,14 +25,12 @@ const EditFilm = () => {
   const fetchMovie = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        `https://teater-api.arkiva.gov.al/api/movies/${id}`
-      );
+      const res = await axios.get(`http://localhost:3107/api/movies/${id}`);
       if (res.status === 200) {
         setFilm(res.data);
         setForm({
           title: res.data.title || "",
-          date: res.data.date || "",
+          date: res.data.date ? new Date(res.data.date) : null,
           time: res.data.time || "",
         });
         setStatus(res.data.status || "");
@@ -92,8 +90,7 @@ const EditFilm = () => {
     if (!form.title.trim()) {
       inputErrors.title = "Titulli nuk mund të jetë bosh!";
     }
-
-    if (!form.date.trim()) {
+    if (!form.date) {
       inputErrors.date = "Data nuk mund të jetë bosh!";
     }
     if (!form.time.trim()) {
@@ -102,7 +99,6 @@ const EditFilm = () => {
     if (!status.trim()) {
       inputErrors.status = "Statusi nuk mund të jetë bosh!";
     }
-
     setErrors(inputErrors);
     return Object.keys(inputErrors).length === 0;
   };
@@ -114,13 +110,13 @@ const EditFilm = () => {
       setLoading(true);
       const payload = {
         title: form.title,
-        date: form.date,
+        date: form.date.toISOString().slice(0, 10), // format date as yyyy-MM-dd
         time: form.time,
         status: status,
       };
 
       const response = await axios.put(
-        `https://teater-api.arkiva.gov.al/api/movies/update/${id}`,
+        `http://localhost:3107/api/movies/update/${id}`,
         payload
       );
       if (response.status === 200) {
@@ -159,7 +155,7 @@ const EditFilm = () => {
     if (film) {
       setForm({
         title: film.title || "",
-        date: film.date || "",
+        date: film.date ? new Date(film.date) : null,
         time: film.time || "",
       });
       setStatus(film.status || "");
@@ -188,34 +184,40 @@ const EditFilm = () => {
             onClick={() => navigate("/menaxho/filma")}
             className="back-btn"
           >
-            <i className="fa-solid fa-arrow-left"></i>
-            Kthehu
+            <i className="fa-solid fa-arrow-left"></i> Kthehu
           </button>
         </div>
       </div>
 
-      <div className="page-content edit-movie-container">
-        <div className="edit-movie-card">
+      <div
+        className="page-content edit-movie-container"
+        style={{ overflow: "visible" }}
+      >
+        <div
+          className="edit-movie-card"
+          style={{ overflow: "visible", position: "relative" }}
+        >
           <div className="card-header">
             <div className="card-title">
-              <i className="fa-solid fa-film"></i>
-              Detajet e filmit
+              <i className="fa-solid fa-film"></i> Detajet e filmit
             </div>
             {!editMode && (
               <button className="edit-btn" onClick={() => setEditMode(true)}>
-                <i className="fa-solid fa-edit"></i>
-                Modifiko
+                <i className="fa-solid fa-edit"></i> Modifiko
               </button>
             )}
           </div>
 
-          <div className="card-content">
+          <div
+            className="card-content"
+            style={{ overflow: "visible", position: "relative" }}
+          >
             {film && (
               <div className="form-grid">
+                {/* Title */}
                 <div className="form-field">
                   <label className="field-label">
-                    <i className="fa-solid fa-ticket"></i>
-                    Filmi
+                    <i className="fa-solid fa-ticket"></i> Filmi
                   </label>
                   <div className="field-input">
                     {!editMode ? (
@@ -236,22 +238,24 @@ const EditFilm = () => {
                   </div>
                 </div>
 
+                {/* Date */}
                 <div className="form-field">
                   <label className="field-label">
-                    <i className="fa-solid fa-calendar-days"></i>
-                    Data
+                    <i className="fa-solid fa-calendar-days"></i> Data
                   </label>
-                  <div className="field-input">
+                  <div className="field-input" style={{ position: "relative" }}>
                     {!editMode ? (
                       <div className="readonly-value">{film.date}</div>
                     ) : (
-                      <input
-                        type="date"
-                        name="date"
-                        value={form.date}
-                        onChange={handleChange}
-                        placeholder="Zgjidh datën"
+                      <DatePicker
+                        selected={form.date}
+                        onChange={(date) =>
+                          setForm((prev) => ({ ...prev, date }))
+                        }
+                        dateFormat="yyyy-MM-dd"
+                        placeholderText="Zgjidhni datën"
                         className={errors.date ? "error-input" : ""}
+                        popperPlacement="bottom-start"
                       />
                     )}
                     {errors.date && (
@@ -260,10 +264,10 @@ const EditFilm = () => {
                   </div>
                 </div>
 
+                {/* Time */}
                 <div className="form-field">
                   <label className="field-label">
-                    <i className="fa-solid fa-clock"></i>
-                    Ora
+                    <i className="fa-solid fa-clock"></i> Ora
                   </label>
                   <div className="field-input">
                     {!editMode ? (
@@ -278,16 +282,16 @@ const EditFilm = () => {
                         className={errors.time ? "error-input" : ""}
                       />
                     )}
-                    {errors.date && (
+                    {errors.time && (
                       <div className="error-message">{errors.time}</div>
                     )}
                   </div>
                 </div>
 
+                {/* Status */}
                 <div className="form-field">
                   <label className="field-label">
-                    <i className="fa-solid fa-list-check"></i>
-                    Statusi
+                    <i className="fa-solid fa-list-check"></i> Statusi
                   </label>
                   <div className="field-input">
                     {!editMode ? (
@@ -318,15 +322,14 @@ const EditFilm = () => {
                   </div>
                 </div>
 
+                {/* Action buttons */}
                 {editMode && (
                   <div className="action-buttons">
                     <button className="cancel-btn" onClick={handleCancel}>
-                      <i className="fa-solid fa-times"></i>
-                      Anullo
+                      <i className="fa-solid fa-times"></i> Anullo
                     </button>
                     <button className="save-btn" onClick={handleSave}>
-                      <i className="fa-solid fa-check"></i>
-                      Ruaj ndryshimet
+                      <i className="fa-solid fa-check"></i> Ruaj ndryshimet
                     </button>
                   </div>
                 )}

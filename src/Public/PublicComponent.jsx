@@ -19,7 +19,7 @@ const PublicComponent = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://teater-api.arkiva.gov.al/api/movies/pending"
+        "http://localhost:3107/api/movies/pending"
       );
       if (response.status === 200) {
         setMovies(response.data);
@@ -60,7 +60,7 @@ const PublicComponent = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://teater-api.arkiva.gov.al/api/reservations/new",
+        "http://localhost:3107/api/reservations/new",
         {
           fullName,
           email,
@@ -70,7 +70,7 @@ const PublicComponent = () => {
       );
 
       if (response.status === 200) {
-        await axios.post("https://teater-api.arkiva.gov.al/submit", {
+        await axios.post("http://localhost:3107/submit", {
           film: movies.find((m) => m._id === movieId)?.title || "Event",
           name: fullName,
           email,

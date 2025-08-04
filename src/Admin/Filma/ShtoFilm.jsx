@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./filma.css";
 import CustomSelect from "../../CustomSelect";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ShtoFilm = () => {
   const [loading, setLoading] = useState(false);
@@ -59,7 +61,7 @@ const ShtoFilm = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://teater-api.arkiva.gov.al/api/movies/new",
+        "http://localhost:3107/api/movies/new",
         {
           title,
           date,
@@ -163,12 +165,16 @@ const ShtoFilm = () => {
                   Data
                 </label>
                 <div className="field-input">
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    placeholder="Zgjidhni datën"
-                    className={inputErrors.cognome ? "error-input" : ""}
+                  <DatePicker
+                    selected={date ? new Date(date) : null}
+                    onChange={(date) =>
+                      setDate(date.toISOString().slice(0, 10))
+                    }
+                    dateFormat="yyyy-MM-dd"
+                    placeholderText="Zgjidhni datën"
+                    className={`your-custom-input ${
+                      inputErrors.date ? "error-input" : ""
+                    }`}
                   />
                   {inputErrors.date && (
                     <div className="error-message">{inputErrors.date}</div>

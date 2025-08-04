@@ -31,9 +31,7 @@ const ShtoRezervim = () => {
   const fetchMovies = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "https://teater-api.arkiva.gov.al/api/movies"
-      );
+      const response = await axios.get("http://localhost:3107/api/movies");
       if (response.status === 200) {
         setMovies(response.data);
       }
@@ -77,7 +75,7 @@ const ShtoRezervim = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://teater-api.arkiva.gov.al/api/reservations/new",
+        "http://localhost:3107/api/reservations/new",
         {
           fullName,
           email,

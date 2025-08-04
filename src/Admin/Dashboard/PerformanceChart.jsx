@@ -70,7 +70,7 @@ export default function CustomBarChart({ data, xKey, yKey, xLabel, yLabel }) {
           />
           <Tooltip />
           <Legend />
-          <Bar dataKey={xKey} fill="#bd1e2c" />
+          <Bar dataKey="reservations" fill="#bd1e2c" name="Rezervime" />
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -18,9 +18,7 @@ const Filma = () => {
   const fetchMovies = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "https://teater-api.arkiva.gov.al/api/movies"
-      );
+      const response = await axios.get("http://localhost:3107/api/movies");
 
       if (response.status === 200) {
         const now = new Date();
@@ -40,12 +38,9 @@ const Filma = () => {
             let status = movie.status;
             if (status === "pending" && movieDateTime < now) {
               try {
-                await axios.patch(
-                  `https://teater-api.arkiva.gov.al/api/${movie._id}`,
-                  {
-                    status: "completed",
-                  }
-                );
+                await axios.patch(`http://localhost:3107/api/${movie._id}`, {
+                  status: "completed",
+                });
                 status = "completed";
               } catch (err) {
                 console.error(
@@ -130,7 +125,7 @@ const Filma = () => {
     try {
       setLoading(true);
       const response = await axios.delete(
-        `https://teater-api.arkiva.gov.al/api/movies/delete/${selectedMovieId}` // ✅ Corrected route
+        `http://localhost:3107/api/movies/delete/${selectedMovieId}` // ✅ Corrected route
       );
       if (response.status === 200) {
         toast.success("Filmi u fshi me sukses!", {
