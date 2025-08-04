@@ -3,6 +3,7 @@ import Logo from "../Assets/Images/logo.jpg";
 import { useEffect, useState } from "react";
 import { Bounce, toast } from "react-toastify";
 import axios from "axios";
+import CustomSelect from "../CustomSelect";
 
 const PublicComponent = () => {
   const [loading, setLoading] = useState(false);
@@ -11,14 +12,14 @@ const PublicComponent = () => {
   const [movieId, setMovieId] = useState("");
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [nrPeople, setNrPeople] = useState("1");
+  const [nrPeople, setNrPeople] = useState("");
   const [errors, setErrors] = useState({});
 
   const fetchMovies = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "https://teater-api.arkiva.gov.al/api/movies/pending"
+        "http://localhost:3107/api/movies/pending"
       );
       if (response.status === 200) {
         setMovies(response.data);
@@ -59,7 +60,7 @@ const PublicComponent = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "https://teater-api.arkiva.gov.al/api/reservations/new",
+        "http://localhost:3107/api/reservations/new",
         {
           fullName,
           email,
@@ -69,7 +70,7 @@ const PublicComponent = () => {
       );
 
       if (response.status === 200) {
-        await axios.post("https://teater-api.arkiva.gov.al/submit", {
+        await axios.post("http://localhost:3107/submit", {
           film: movies.find((m) => m._id === movieId)?.title || "Event",
           name: fullName,
           email,
@@ -115,6 +116,16 @@ const PublicComponent = () => {
     }
   };
 
+  const movieOptions = movies.map((movie) => ({
+    value: movie._id,
+    label: `${movie.title} - ${formatDate(movie.date)} - ${movie.time}`,
+  }));
+
+  const ticketOptions = [1, 2, 3, 4, 5].map((n) => ({
+    value: n.toString(),
+    label: n.toString(),
+  }));
+
   return (
     <div className="booking">
       <div className="overlay"></div>
@@ -128,17 +139,19 @@ const PublicComponent = () => {
                   Zgjidhni eventin që doni të ndiqni:
                 </div>
                 <div className="input-value">
-                  <select
-                    value={movieId}
-                    onChange={(e) => setMovieId(e.target.value)}
-                  >
-                    <option value="">-- Zgjidh event --</option>
-                    {movies.map((movie) => (
-                      <option key={movie._id} value={movie._id}>
-                        {movie.title} - {formatDate(movie.date)} - {movie.time}
-                      </option>
-                    ))}
-                  </select>
+                  <CustomSelect
+                    options={movieOptions}
+                    value={
+                      movieOptions.find((opt) => opt.value === movieId) || null
+                    }
+                    onChange={(selected) =>
+                      setMovieId(selected ? selected.value : "")
+                    }
+                    placeholder="-- Zgjidh event --"
+                  />
+                  {errors.movieId && (
+                    <div className="error-message">{errors.movieId}</div>
+                  )}
                 </div>
                 {errors.movieId && (
                   <div className="error-message">{errors.movieId}</div>
@@ -153,6 +166,7 @@ const PublicComponent = () => {
                     type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Emër Mbiemër"
                   />
                 </div>
                 {errors.fullName && (
@@ -168,6 +182,7 @@ const PublicComponent = () => {
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
                   />
                 </div>
                 {errors.email && (
@@ -179,16 +194,20 @@ const PublicComponent = () => {
               <div className="input-group">
                 <div className="input-label">Numri i biletave:</div>
                 <div className="input-value">
-                  <select
-                    value={nrPeople}
-                    onChange={(e) => setNrPeople(e.target.value)}
-                  >
-                    {[1, 2, 3, 4, 5].map((n) => (
-                      <option key={n} value={n}>
-                        {n}
-                      </option>
-                    ))}
-                  </select>
+                  <CustomSelect
+                    options={ticketOptions}
+                    value={
+                      ticketOptions.find((opt) => opt.value === nrPeople) ||
+                      null
+                    }
+                    onChange={(selected) =>
+                      setNrPeople(selected ? selected.value : "1")
+                    }
+                    placeholder="-- Zgjidhni nr. e biletave --"
+                  />
+                  {errors.nrPeople && (
+                    <div className="error-message">{errors.nrPeople}</div>
+                  )}
                 </div>
                 {errors.nrPeople && (
                   <div className="error-message">{errors.nrPeople}</div>

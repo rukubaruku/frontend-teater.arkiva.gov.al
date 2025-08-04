@@ -456,6 +456,28 @@
   box-shadow: 0 4px 8px rgba(189, 30, 44, 0.3);
 }
 
+.outside-delete-btn {
+  display: flex;
+  align-items: center;
+  padding: 5px 8px;
+  background: linear-gradient(135deg, #bd1e2c 0%, #a0182a 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 4px rgba(189, 30, 44, 0.2);
+}
+
+.outside-delete-btn:hover {
+  background: linear-gradient(135deg, #a0182a 0%, #8b1424 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(189, 30, 44, 0.3);
+}
+
 .cancel-btn {
   display: flex;
   align-items: center;

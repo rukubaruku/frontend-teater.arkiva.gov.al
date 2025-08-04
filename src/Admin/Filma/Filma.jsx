@@ -4,20 +4,21 @@ import { Bounce, toast } from "react-toastify";
 import Table from "../../Table/Table";
 import axios from "axios";
 import CustomSelect from "../../CustomSelect";
+import PopUp from "../../PopUp";
 
 const Filma = () => {
   const [loading, setLoading] = useState(false);
   const [movies, setMovies] = useState([]);
   const [selectedYear, setSelectedYear] = useState(null);
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [selectedMovieId, setSelectedMovieId] = useState(null);
 
   const navigate = useNavigate();
 
   const fetchMovies = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        "https://teater-api.arkiva.gov.al/api/movies"
-      );
+      const response = await axios.get("http://localhost:3107/api/movies");
 
       if (response.status === 200) {
         const now = new Date();
@@ -37,10 +38,9 @@ const Filma = () => {
             let status = movie.status;
             if (status === "pending" && movieDateTime < now) {
               try {
-                await axios.patch(
-                  `https://teater-api.arkiva.gov.al/api/movies/${movie._id}`,
-                  { status: "completed" }
-                );
+                await axios.patch(`http://localhost:3107/api/${movie._id}`, {
+                  status: "completed",
+                });
                 status = "completed";
               } catch (err) {
                 console.error(
@@ -69,6 +69,10 @@ const Filma = () => {
       toast.error(`${error?.response?.data?.message || "Gabim në server"}`, {
         position: "top-right",
         autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
         theme: "light",
         transition: Bounce,
       });
@@ -93,10 +97,69 @@ const Filma = () => {
     { field: "date", header: "Data" },
     { field: "time", header: "Ora" },
     { field: "status", header: "Statusi" },
+    {
+      header: "Veprime",
+      size: 150,
+      enableSorting: false,
+      enableColumnFilter: false,
+      Cell: ({ row }) => (
+        <button
+          className="outside-delete-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            setSelectedMovieId(row.original.id);
+            setShowPopUp(true);
+          }}
+        >
+          <i className="fa-solid fa-trash"></i> Fshi
+        </button>
+      ),
+    },
   ];
 
   const handleRowClick = (movie) => {
     navigate(`/menaxho/filma/${movie.id}`);
+  };
+
+  const handleDelete = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.delete(
+        `http://localhost:3107/api/movies/delete/${selectedMovieId}` // ✅ Corrected route
+      );
+      if (response.status === 200) {
+        toast.success("Filmi u fshi me sukses!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+
+      fetchMovies();
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Gabim gjatë fshirjes së filmit",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+          transition: Bounce,
+        }
+      );
+    } finally {
+      setShowPopUp(false);
+      setSelectedMovieId(null);
+      setLoading(false);
+    }
   };
 
   const yearOptions = [
@@ -127,6 +190,14 @@ const Filma = () => {
           <div className="spinner"></div>
         </div>
       )}
+
+      <PopUp
+        open={showPopUp}
+        setOpen={setShowPopUp}
+        header="Konfirmo fshirjen"
+        content="Jeni i sigurtë që doni të fshini këtë film?"
+        deleteFunction={handleDelete}
+      />
 
       <div className="page-header">
         <div className="page-title">Filma</div>

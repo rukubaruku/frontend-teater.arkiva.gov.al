@@ -102,8 +102,8 @@ body {
   font-size: 16px;
   font-weight: 550;
 }
-.input-group input,
-.input-group select {
+
+.input-group input {
   font-weight: 400;
   font-size: 20px;
   line-height: 20px;
@@ -111,26 +111,40 @@ body {
   padding: 10px 16px;
   color: #0b0e14;
   border-radius: 12px;
-  border: 2px solid #e1e5e9;
+  border: 2px solid #e9ecef;
   background-color: #ffffff;
   width: 100%;
   transition: all 200ms ease;
   font-family: Inter, sans-serif;
 }
 
-.input-group input:hover,
-.input-group select:hover {
-  border-color: #e4c1f9;
+.booking-form .css-1ex2tx5-control {
+  background-color: #ffffff;
+}
+
+.input-group input::placeholder {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  color: #aaa;
+  font-family: Inter, sans-serif;
+}
+
+.input-group input:hover {
+  border-color: #bd1e2c;
   background-color: #fafafa;
 }
 .input-group input:focus,
-.input-group input:active,
-.input-group select:focus,
-.input-group select:active {
-  border-color: #e4c1f9;
+.input-group input:active {
+  border-color: #bd1e2c;
   outline: none;
   box-shadow: 0 0 0 3px rgba(189, 30, 44, 0.1);
   background-color: #ffffff;
+}
+
+.input-group input.error {
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
 }
 
 .send-btn {
@@ -205,23 +219,19 @@ body {
   color: #fff;
 }
 
-@media (width<=1090px) {
+@media (width<=1260px) {
+  .booking-container {
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+
+@media (width<=1120px) {
   .description {
     padding-right: 30px;
   }
 }
 
-@media (width<=930px) {
-  .booking-form {
-    width: 310px;
-  }
-
-  .booking-container {
-    grid-template-columns: 370px auto;
-  }
-}
-
-@media (width<=800px) {
+@media (width<=1000px) {
   .booking {
     overflow-x: hidden;
   }
@@ -275,5 +285,23 @@ body {
     justify-content: center;
     align-items: flex-start;
     gap: 24px;
+  }
+}
+
+@media (width<=730px) {
+  .description-title {
+    font-size: 42px;
+  }
+}
+
+@media (width<=580px) {
+  .description-title {
+    font-size: 36px;
+  }
+}
+
+@media (width<=510px) {
+  .description-title {
+    font-size: 28px;
   }
 }

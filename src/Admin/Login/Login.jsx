@@ -17,11 +17,11 @@ const Login = () => {
     const userToLogin = { email: emailL, password: passwordL };
     try {
       // const response = await axios.post(
-      //   "https://teater-api.arkiva.gov.al/api/users/login",
+      //   "http://localhost:3107/api/users/login",
       //   userToLogin
       // );
       const response = await axios.post(
-        "https://teater-api.arkiva.gov.al/api/users/login",
+        "http://localhost:3107/api/users/login",
         userToLogin
       );
       if (response.data.type === "error") {

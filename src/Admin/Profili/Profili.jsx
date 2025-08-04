@@ -29,7 +29,7 @@ const Profili = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `https://teater-api.arkiva.gov.al/api/users/${loggedUser}`
+        `http://localhost:3107/api/users/${loggedUser}`
       );
       if (res.status === 200) {
         setUser(res.data);
@@ -121,7 +121,7 @@ const Profili = () => {
       };
 
       const res = await axios.put(
-        `https://teater-api.arkiva.gov.al/api/users/update/${loggedUser}`,
+        `http://localhost:3107/api/users/update/${loggedUser}`,
         payload
       );
 
@@ -216,7 +216,7 @@ const Profili = () => {
     try {
       setLoading(true);
       const response = await axios.put(
-        `https://teater-api.arkiva.gov.al/api/users/reset-password/${loggedUser}`,
+        `http://localhost:3107/api/users/reset-password/${loggedUser}`,
         {
           currentPassword,
           newPassword,
@@ -456,8 +456,8 @@ const Profili = () => {
 
             <div className="user-profile-field">
               <label className="user-profile-field-label">
-                <i className="fa-solid fa-align-left"></i>
-                Email
+                <i className="fa-solid fa-phone"></i>
+                Nr.telefonit
               </label>
               <div className="user-profile-field-value">
                 {editMode ? (

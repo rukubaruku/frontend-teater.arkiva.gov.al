@@ -7,6 +7,7 @@ import { saveAs } from "file-saver";
 import jsPDF from "jspdf";
 import "./rezervime.css";
 import CustomSelect from "../../CustomSelect";
+import PopUp from "../../PopUp";
 
 const Rezervime = () => {
   const [loading, setLoading] = useState(false);
@@ -15,12 +16,14 @@ const Rezervime = () => {
   const [movies, setMovies] = useState([]);
   const [selectedMovieIds, setSelectedMovieIds] = useState([]);
   const navigate = useNavigate();
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [selectedReservationId, setSelectedReservationId] = useState(null);
 
   const fetchReservations = async (movieIds = []) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `https://teater-api.arkiva.gov.al/api/reservations/filter`,
+        `http://localhost:3107/api/reservations/filter`,
         { movieIds }
       );
 
@@ -45,9 +48,7 @@ const Rezervime = () => {
 
   const fetchMovies = async () => {
     try {
-      const response = await axios.get(
-        "https://teater-api.arkiva.gov.al/api/movies"
-      );
+      const response = await axios.get("http://localhost:3107/api/movies");
       if (Array.isArray(response.data)) {
         setMovies(response.data);
       } else {
@@ -200,10 +201,68 @@ const Rezervime = () => {
     { field: "fullName", header: "Emër mbiemër", size: 500 },
     { field: "email", header: "Email", size: 200 },
     { field: "nrPeople", header: "Nr. personave", size: 100 },
+    {
+      header: "Veprime",
+      size: 150,
+      enableSorting: false,
+      enableColumnFilter: false,
+      Cell: ({ row }) => (
+        <button
+          className="outside-delete-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            setSelectedReservationId(row.original._id);
+            setShowPopUp(true);
+          }}
+        >
+          <i className="fa-solid fa-trash"></i> Fshi
+        </button>
+      ),
+    },
   ];
 
-  const handleRowClick = (movie) => {
-    navigate(`/menaxho/rezervim/${movie.id}`);
+  const handleDelete = async () => {
+    if (!selectedReservationId) return;
+
+    try {
+      setLoading(true);
+      const response = await axios.delete(
+        `http://localhost:3107/api/reservations/delete/${selectedReservationId}`
+      );
+
+      if (response.status === 200) {
+        toast.success("Rezervimi u fshi me sukses!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+          transition: Bounce,
+        });
+      }
+
+      fetchReservations();
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Gabim gjatë fshirjes së rezervimit",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+          transition: Bounce,
+        }
+      );
+    } finally {
+      setShowPopUp(false);
+      setSelectedReservationId(null);
+      setLoading(false);
+    }
   };
 
   const handleClearFilters = () => {
@@ -223,6 +282,14 @@ const Rezervime = () => {
           <div className="spinner"></div>
         </div>
       )}
+
+      <PopUp
+        open={showPopUp}
+        setOpen={setShowPopUp}
+        header="Konfirmo fshirjen"
+        content="Jeni i sigurtë që doni të fshini këtë rezervim?"
+        deleteFunction={handleDelete}
+      />
 
       <div className="page-header">
         <div className="page-title">Rezervime</div>
@@ -305,11 +372,7 @@ const Rezervime = () => {
         </div>
 
         {filteredReservations && (
-          <Table
-            columns={columns}
-            data={filteredReservations}
-            onRowClick={handleRowClick}
-          />
+          <Table columns={columns} data={filteredReservations} />
         )}
       </div>
     </div>
