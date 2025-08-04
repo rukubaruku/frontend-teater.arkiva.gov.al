@@ -20,7 +20,7 @@ const Dashboard = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          "http://localhost:3107/api/movies/dashboard"
+          "https://teater-api.arkiva.gov.al/api/movies/dashboard"
         );
         if (response.status === 200) {
           setMoviesNr(response.data.count);
@@ -41,7 +41,7 @@ const Dashboard = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          "http://localhost:3107/api/reservations/dashboard"
+          "https://teater-api.arkiva.gov.al/api/reservations/dashboard"
         );
         if (response.status === 200) {
           setReservationsNr(response.data.count);
@@ -61,7 +61,7 @@ const Dashboard = () => {
     const fetchShiNePlazhReservations = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:3107/api/reservations/countByMovie",
+          "https://teater-api.arkiva.gov.al/api/reservations/countByMovie",
           { params: { title: "Shi në plazh" } }
         );
         if (

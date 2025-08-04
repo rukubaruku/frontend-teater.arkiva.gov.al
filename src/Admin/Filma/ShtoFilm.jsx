@@ -61,7 +61,7 @@ const ShtoFilm = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:3107/api/movies/new",
+        "https://teater-api.arkiva.gov.al/api/movies/new",
         {
           title,
           date,

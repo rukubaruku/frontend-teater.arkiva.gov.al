@@ -25,7 +25,9 @@ const EditFilm = () => {
   const fetchMovie = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:3107/api/movies/${id}`);
+      const res = await axios.get(
+        `https://teater-api.arkiva.gov.al/api/movies/${id}`
+      );
       if (res.status === 200) {
         setFilm(res.data);
         setForm({
@@ -116,7 +118,7 @@ const EditFilm = () => {
       };
 
       const response = await axios.put(
-        `http://localhost:3107/api/movies/update/${id}`,
+        `https://teater-api.arkiva.gov.al/api/movies/update/${id}`,
         payload
       );
       if (response.status === 200) {

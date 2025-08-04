@@ -20,7 +20,7 @@ const Login = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3107/api/users/login",
+        "https://teater-api.arkiva.gov.al/api/users/login",
         userToLogin
       );
 
