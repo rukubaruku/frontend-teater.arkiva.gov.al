@@ -156,7 +156,7 @@ const Rezervime = () => {
 
       doc.setFont("helvetica", "bold");
       doc.text("Emër mbiemër", 10, y);
-      doc.text("Nr. Personave", 80, y);
+      doc.text("Nr. Biletave", 80, y);
       y += 8;
 
       doc.setFont("helvetica", "normal");

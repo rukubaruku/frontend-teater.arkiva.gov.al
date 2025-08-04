@@ -21,8 +21,10 @@ const ShtoRezervim = () => {
     if (!movieId) errors.movieId = "Zgjidh një film!";
     if (!fullName) errors.fullName = "Emri nuk mund të jetë bosh!";
     if (!email) errors.email = "Email nuk mund të jetë bosh!";
-    if (!nrPeople || isNaN(nrPeople) || parseInt(nrPeople) <= 0)
-      errors.nrPeople = "Vendos një numër të vlefshëm personash!";
+    if (!nrPeople) {
+      errors.nrPeople = "Nr.biletave nuk mund të jetë bosh!";
+    } else if (isNaN(nrPeople) || parseInt(nrPeople) <= 0)
+      errors.nrPeople = "Vendos një numër të vlefshëm biletash!";
 
     setInputErrors(errors);
     return Object.keys(errors).length === 0;
@@ -228,14 +230,14 @@ const ShtoRezervim = () => {
               <div className="form-field">
                 <label className="field-label">
                   <i className="fa-solid fa-users"></i>
-                  Numri i personave
+                  Numri i biletave
                 </label>
                 <div className="field-input">
                   <input
                     type="number"
                     value={nrPeople}
                     onChange={(e) => setNrPeople(e.target.value)}
-                    placeholder="Vendosni numrin e personave"
+                    placeholder="Vendosni numrin e biletave"
                     className={inputErrors.nrPeople ? "error-input" : ""}
                   />
                   {inputErrors.nrPeople && (

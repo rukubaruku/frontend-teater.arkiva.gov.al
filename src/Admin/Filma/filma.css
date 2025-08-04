@@ -180,7 +180,8 @@ field-input input[type="date"] {
 
 .edit-movie-container,
 .edit-movie-card,
-.card-content {
+.card-content,
+.add-movie-card {
   overflow: visible !important;
 }
 

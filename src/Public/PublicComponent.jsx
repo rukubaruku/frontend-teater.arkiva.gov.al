@@ -44,7 +44,7 @@ const PublicComponent = () => {
     const newErrors = {};
     if (!movieId) newErrors.movieId = "Zgjidhni një event!";
     if (!fullName.trim())
-      newErrors.fullName = "Emri i plotë është i detyrueshëm!";
+      newErrors.fullName = "Emri dhe mbiemri janë të detyrueshëm!";
     if (!email.trim() || !/\S+@\S+\.\S+/.test(email))
       newErrors.email = "Vendosni një email të vlefshëm!";
     if (!nrPeople || parseInt(nrPeople) <= 0)
@@ -149,9 +149,6 @@ const PublicComponent = () => {
                     }
                     placeholder="-- Zgjidhni eventin --"
                   />
-                  {errors.movieId && (
-                    <div className="error-message">{errors.movieId}</div>
-                  )}
                 </div>
                 {errors.movieId && (
                   <div className="error-message">{errors.movieId}</div>
@@ -205,9 +202,6 @@ const PublicComponent = () => {
                     }
                     placeholder="-- Zgjidhni nr. e biletave --"
                   />
-                  {errors.nrPeople && (
-                    <div className="error-message">{errors.nrPeople}</div>
-                  )}
                 </div>
                 {errors.nrPeople && (
                   <div className="error-message">{errors.nrPeople}</div>
