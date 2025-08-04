@@ -13,12 +13,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-image: linear-gradient(
-    -225deg,
-    #5d9fff 0%,
-    #b8dcff 48%,
-    #6bbbff 100%
-  );
+  background: linear-gradient(to left, #ef3b36, #ffffff);
 }
 
 .container {
@@ -93,7 +88,7 @@
 .input-box input {
   width: 90%;
   padding: 13px 50px 13px 20px;
-  background: #eee;
+  background: #fbe8e9;
   border-radius: 8px;
   border: none;
   outline: none;
@@ -124,7 +119,7 @@
   font-size: 18px;
   font-weight: 600;
   font-family: "Lexend", serif;
-  color: #023e8a;
+  color: #6d121a;
   text-align: center;
   margin-bottom: 20px;
 }
@@ -132,7 +127,7 @@
 .btn {
   width: 90%;
   height: 48px;
-  background: #6eacff;
+  background: linear-gradient(135deg, #bd1e2c 0%, #a0182a 100%);
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border: none;
@@ -145,7 +140,9 @@
 }
 
 .btn:hover {
-  background: #5d9fff;
+  background: linear-gradient(135deg, #a0182a 0%, #8b1424 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(189, 30, 44, 0.3);
 }
 
 .toggle-box {
@@ -160,7 +157,8 @@
   left: -250%;
   width: 300%;
   height: 100%;
-  background: #4b93ff;
+  background: linear-gradient(to left, #ed213a, #bd1e2c);
+
   border-radius: 150px;
   z-index: 2;
   transition: 1.8s ease-in-out;
@@ -204,6 +202,14 @@
 .toggle-panel img {
   width: auto;
   height: 250px;
+}
+
+.error {
+  color: #dc3545;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 4px 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 @media (width<=1300px) {

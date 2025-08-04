@@ -141,6 +141,23 @@
   resize: vertical;
 }
 
+.add-movie-card .css-1ex2tx5-control,
+.edit-movie-card .css-1ex2tx5-control {
+  background: #ffffff;
+}
+
+field-input input[type="date"] {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 12px 16px;
+  font-size: 18px;
+  border-radius: 8px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #2b3240;
+  background: #fff;
+  border: 2px solid #e9ecef;
+}
+
 .field-input input:focus {
   outline: none;
   border-color: #bd1e2c;

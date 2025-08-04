@@ -5,7 +5,6 @@ import "./dashboard.css";
 import CountUp from "react-countup";
 import CustomBarChart from "./PerformanceChart";
 import { Bounce, toast } from "react-toastify";
-import { LineChart } from "@mui/x-charts/LineChart";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -164,7 +163,7 @@ const Dashboard = () => {
               <div className="line-chart">
                 <CustomBarChart
                   data={moviesData}
-                  xKey="reservations"
+                  xKey="Rezervime"
                   yKey="title"
                   xLabel="Nr. Rezervimeve"
                   yLabel="Filmat"

@@ -6,38 +6,41 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import Logo from "../../Assets/Images/icon.png";
 
 const Login = () => {
-  const [emailL, setEmailL] = useState("");
-  const [passwordL, setPasswordL] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loginError, setLoginError] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
 
   const handleLogIn = async () => {
-    const userToLogin = { email: emailL, password: passwordL };
+    setLoginError("");
+
+    const userToLogin = { email, password };
+
     try {
-      // const response = await axios.post(
-      //   "https://teater-api.arkiva.gov.al/api/users/login",
-      //   userToLogin
-      // );
       const response = await axios.post(
         "https://teater-api.arkiva.gov.al/api/users/login",
         userToLogin
       );
-      if (response.data.type === "error") {
-        setLoginError(response.data.message);
-        return;
-      }
+
       const user = response.data;
-      if (user) {
-        navigate("/menaxho/dashboard");
+      if (user && user._id) {
         localStorage.setItem("loggedUser_id", user._id);
+        navigate("/menaxho/dashboard");
       } else {
-        localStorage.setItem("loggedUser_id", 0);
-        setLoginError("Email and password do not match!");
+        setLoginError("Autentikimi dështoi. Ju lutem provoni përsëri.");
       }
     } catch (error) {
-      console.log(error);
+      if (
+        error.response?.data?.type === "error" &&
+        error.response?.data?.message
+      ) {
+        setLoginError(error.response.data.message);
+      } else {
+        setLoginError("Ndodhi një gabim i papritur. Ju lutem provoni më vonë.");
+      }
+      console.error("Login error:", error);
     }
   };
 
@@ -51,8 +54,8 @@ const Login = () => {
               <input
                 type="text"
                 placeholder="Email"
-                value={emailL}
-                onChange={(e) => setEmailL(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <i className="bx bxs-user"></i>
             </div>
@@ -60,8 +63,8 @@ const Login = () => {
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                value={passwordL}
-                onChange={(e) => setPasswordL(e.target.value)}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="button"
