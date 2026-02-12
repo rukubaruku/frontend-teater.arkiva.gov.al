@@ -21,7 +21,10 @@ const Login = () => {
     try {
       const response = await axios.post(
         "https://teater-api.arkiva.gov.al/api/users/login",
-        userToLogin
+        userToLogin,
+        {
+          withCredentials: true,
+        },
       );
 
       const user = response.data;
